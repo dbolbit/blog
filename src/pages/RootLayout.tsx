@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react'
 import {Outlet} from 'react-router-dom'
-import {Layout, Menu, Spin} from 'antd'
+import {Avatar, Layout, Menu, Spin} from 'antd'
 import {Link} from "react-router-dom"
 import {
   UserOutlined,
@@ -11,7 +11,7 @@ import {
   LogoutOutlined,
   LoginOutlined
 } from '@ant-design/icons'
-import {useLocation, useNavigate} from "react-router"
+import {redirect, useLocation, useNavigate} from "react-router"
 import useAuth from "../hooks/useAuth"
 import {useAppDispatch, useAppSelector} from "../hooks/useCustomRTKSelectors"
 import {fetchUserById, User, logOutUser} from "../store/slices/userSlice"
@@ -54,6 +54,7 @@ const RootLayout: React.FC = (props) => {
       const id: number = +saveID
       dispatch(fetchUserById({id, token}))
     }
+
   }, [saveID])
 
   const handlerLogInOut = (e: React.MouseEvent) => {
@@ -73,7 +74,9 @@ const RootLayout: React.FC = (props) => {
             <Link to="/">LOGO</Link>
             <span className="logInOut" onClick={handlerLogInOut}>
               {isAuth ? (
-                <>Выйти <LogoutOutlined/></>
+                <>
+                  <Avatar src={user.image}/> Выйти <LogoutOutlined/>
+                </>
               ) : (
                 <>Войти <LoginOutlined/></>
               )}
@@ -85,22 +88,24 @@ const RootLayout: React.FC = (props) => {
             <Layout>
               {isAuth && (
                 <Sider
+                  className="sider"
                   collapsed={isOpen}
                   collapsible
                   theme="dark"
                   trigger={null}
                 >
                   <Menu
+                    style={{position: 'sticky', top: 0}}
                     theme="dark"
                     mode="inline"
                     defaultSelectedKeys={[`${pathname}`]}
                     items={itemsList}
                   >
+
                   </Menu>
                   <div
                     className="sidebar_trigger"
                     onClick={() => setIsOpen(!isOpen)}
-
                   >{isOpen ? <RightOutlined/> : <LeftOutlined/>}
                   </div>
                 </Sider>

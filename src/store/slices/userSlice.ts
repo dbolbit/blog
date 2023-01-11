@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction, createAsyncThunk} from "@reduxjs/toolkit"
 import {IFetchData} from "../../pages/mainPages/LoginPage"
 import axios from "axios"
+import {redirect} from "react-router"
 
 export interface User extends IFetchData {
   isAuth?: boolean,
@@ -34,11 +35,12 @@ export const fetchUserById = createAsyncThunk(
         "Content-Type": "application/json"
       }
     })
-    // console.log(response.status)
-    // console.log(response)
+    console.log(response.status)
+    console.log(response)
     if (response.data.message) {
       localStorage.clear()
-      return rejectWithValue('Ошибка')
+      
+      return rejectWithValue(401)
 
     } else {
       return response.data as User
@@ -63,7 +65,9 @@ const userSlice = createSlice({
       return {...action.payload, isAuth: true, isLoading: false}
     })
     builder.addCase(fetchUserById.rejected, (state, action) => {
-      return {...state, isAuth: false}
+      console.log(action.error.message)
+
+      return {...state, isAuth: false, isLoading: false}
     })
     builder.addCase(fetchUserById.pending, (state, action) => {
       return {...state, isAuth: false, isLoading: true}

@@ -3,6 +3,7 @@ import UserCard, {UserCardProps} from "./UserCard"
 import {useAsyncValue} from "react-router-dom"
 import {User} from "../../store/slices/userSlice"
 import {Button} from "antd"
+import {UsersListVariables} from "../../pages/mainPages/UsersPage"
 
 export type UsersListType = {
   users: User[],
@@ -12,13 +13,14 @@ export type UsersListType = {
 }
 
 interface UserListProps {
-  maxUsers: number,
+
   setMaxUsers: (num: number) => void,
   usersState: User[]
-  setUsersState: ([]: User[]) => void
+  setUsersState: ([]: User[]) => void,
+  viewType: UsersListVariables
 }
 
-const UsersList: FC<UserListProps> = ({maxUsers, setMaxUsers, usersState, setUsersState}) => {
+const UsersList: FC<UserListProps> = ({viewType, setMaxUsers, usersState, setUsersState}) => {
   const users = useAsyncValue() as UsersListType
 
   useEffect(() => {
@@ -30,10 +32,19 @@ const UsersList: FC<UserListProps> = ({maxUsers, setMaxUsers, usersState, setUse
   }, [users])
   return (
     <>
-      {usersState.map(el => {
-          const {id, firstName, lastName, image, company} = el
-          return <UserCard key={id} id={id} firstName={firstName} lastName={lastName} image={image} company={company}/>
-        }
+      {viewType === "table" ? (
+        <>
+          <h1>Hello</h1>
+        </>
+      ) : (
+        <>
+          {usersState.map(el => {
+              const {id, firstName, lastName, image, company} = el
+              return <UserCard key={id} id={id} firstName={firstName} lastName={lastName} image={image}
+                               company={company}/>
+            }
+          )}
+        </>
       )}
     </>
   )

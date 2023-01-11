@@ -17,8 +17,8 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  bottom: 0;
+  position: sticky;
+  top: calc(100vh - 64px);
 }
 
 li {
@@ -137,6 +137,11 @@ body {
   .user_page_container {
     grid-template-columns: 1fr;
   }
+}
+
+.tab_container {
+  background-color: pink;
+  min-height: 300px;
 }
 
 /*# sourceMappingURL=index.css.map */

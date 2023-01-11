@@ -4,11 +4,16 @@
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
   justify-items: center;
-  
+
   @media(max-width: 1200px) {
     grid-template-columns: 1fr 1fr;
   }
   @media(max-width: 768px) {
     grid-template-columns: 1fr;
   }
+}
+
+.tab_container {
+  background-color: pink;
+  min-height: 300px;
 }

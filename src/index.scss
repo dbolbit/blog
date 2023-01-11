@@ -8,6 +8,7 @@ html {
   --main-color: #002748;
 }
 
+
 .sidebar_trigger {
   color: white;
   cursor: pointer;
@@ -17,8 +18,9 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  bottom: 0;
+  position: sticky;
+  top: calc(100vh - 64px);
+
 }
 
 li {
