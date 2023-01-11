@@ -1,0 +1,58 @@
+
+.cabinet {
+  box-shadow: 0 0 7px black;
+  background: #bebebe;
+  height: 500px;
+}
+
+.user {
+  display: flex;
+
+  &__info {
+    //border: 2px solid black;
+    width: 100%;
+    margin-left: 50px;
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+      margin: 0;
+      font-size: 2.5em;
+      //border: 1px solid red;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 1.5em;
+      color: grey;
+      //border: 1px solid red;
+
+    }
+  }
+}
+
+//.bg-male {
+//  background: url("../assets/pattern-man.png") repeat;
+//}
+//
+//.bg-female {
+//  background: url("../assets/pattern-man.png") repeat;
+//}
+
+.logInOut {
+  color: grey;
+  float: right;
+  font-size: 16px;
+  cursor: pointer;
+
+  &:hover {
+    color: white;
+  }
+}
+
+.spin-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

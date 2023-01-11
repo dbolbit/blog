@@ -1,11 +1,19 @@
-import React, {FC} from 'react'
+import React, {FC, useEffect} from 'react'
+import {useAsyncValue} from "react-router-dom"
 
-const User: FC = (props) => {
+const UserData: FC = (props) => {
+  const user = useAsyncValue()
+  useEffect(() => {
+    console.log(user)
+
+  })
 
   return (
-    <h1>User</h1>
+    <div>
+      <h1>Hello user</h1>
+    </div>
   )
 }
 
 
-export default User
+export default UserData

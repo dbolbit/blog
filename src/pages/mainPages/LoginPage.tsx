@@ -2,9 +2,10 @@ import React, {useState, useEffect} from 'react'
 import {LockOutlined, UserOutlined} from '@ant-design/icons'
 import {Button, Checkbox, Form, Input, Layout} from 'antd'
 import axios from "axios"
-import {useAppDispatch} from "../hooks/useCustomRTKSelectors"
-import {logInUser} from "../store/slices/userSlice"
+import {useAppDispatch} from "../../hooks/useCustomRTKSelectors"
+import {logInUser} from "../../store/slices/userSlice"
 import {useNavigate} from "react-router"
+import useAuth from "../../hooks/useAuth"
 
 const {Item} = Form
 
@@ -47,6 +48,7 @@ const fetchLogin = async (data: UserLogin) => {
 
 const LoginPage: React.FC = (props) => {
   const dispatch = useAppDispatch()
+  const {isAuth} = useAuth()
   const navigator = useNavigate()
   const onFinish = async (values: any) => {
     const {username, password}: UserLogin = values
@@ -62,6 +64,12 @@ const LoginPage: React.FC = (props) => {
 
     }
   }
+  useEffect(() => {
+    if (isAuth) {
+      navigator('/cabinet')
+    }
+  })
+
   return (
     <Layout style={{height: 'auto'}}>
       <div style={{height: 400}}>
@@ -96,7 +104,7 @@ const LoginPage: React.FC = (props) => {
                 <Checkbox>Remember me</Checkbox>
               </Item>
 
-              <a className="login-form-forgot" href="" style={{float: "right"}}>
+              <a className="login-form-forgot" href="src/pages/mainPages/LoginPage" style={{float: "right"}}>
                 Forgot password
               </a>
             </Item>
@@ -106,12 +114,15 @@ const LoginPage: React.FC = (props) => {
                 Log in
               </Button>
               <br/>
-              <a href="" style={{width: 'auto', margin: '10px auto', textAlign: "center", display: 'block'}}>Or
+              <a href="src/pages/mainPages/LoginPage"
+                 style={{width: 'auto', margin: '10px auto', textAlign: "center", display: 'block'}}>Or
                 register now!</a>
             </Item>
           </Form>
         </div>
+        0lelplR
       </div>
+
     </Layout>
   )
 }

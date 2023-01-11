@@ -1,9 +1,29 @@
-import React, {FC} from 'react'
+import React, {FC, useState} from 'react'
+import {Card, Avatar} from "antd"
+import Meta from "antd/es/card/Meta"
+import {User} from "../../store/slices/userSlice"
+import {Link} from "react-router-dom"
 
-const Card: FC = (props) => {
-
-  return <h1>hello</h1>
+export interface UserCardProps extends User {
 }
 
 
-export default Card
+const UserCard: FC<UserCardProps> = ({id, firstName, lastName, image, company}) => {
+  return (
+    <div>
+      <>
+        <Card style={{width: 300, marginTop: 16, height: 'auto'}}>
+          <Meta
+            avatar={<Avatar size={100} src={`${image}`} style={{border: '1px solid gray'}}/>}
+            title={<Link to={`/users/${id}`}>{firstName} {lastName}</Link>}
+            description={company?.title}
+          />
+        </Card>
+      </>
+
+    </div>
+  )
+}
+
+
+export default UserCard

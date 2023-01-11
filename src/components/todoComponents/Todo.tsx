@@ -1,5 +1,5 @@
 import React, {FC, useState, forwardRef, Ref, RefObject, MutableRefObject, ForwardedRef} from 'react'
-import {ITodo} from "../pages/mainPages/TodoPage"
+import {ITodo} from "../../pages/mainPages/TodoPage"
 import {CloseOutlined} from '@ant-design/icons'
 import {Checkbox} from 'antd'
 import type {CheckboxChangeEvent} from 'antd/es/checkbox'
