@@ -2,8 +2,8 @@ import React, {FC, useEffect, useState} from 'react'
 import UserCard, {UserCardProps} from "./UserCard"
 import {useAsyncValue} from "react-router-dom"
 import {User} from "../../store/slices/userSlice"
-import {Button} from "antd"
 import {UsersListVariables} from "../../pages/mainPages/UsersPage"
+import UsersTable from "./UsersTable"
 
 export type UsersListType = {
   users: User[],
@@ -34,14 +34,19 @@ const UsersList: FC<UserListProps> = ({viewType, setMaxUsers, usersState, setUse
     <>
       {viewType === "table" ? (
         <>
-          <h1>Hello</h1>
+          <UsersTable users={usersState}/>
         </>
       ) : (
         <>
           {usersState.map(el => {
-              const {id, firstName, lastName, image, company} = el
-              return <UserCard key={id} id={id} firstName={firstName} lastName={lastName} image={image}
-                               company={company}/>
+              const {id, firstName, lastName, image, company, age} = el
+              return <UserCard key={id} id={id}
+                               firstName={firstName}
+                               lastName={lastName}
+                               image={image}
+                               company={company}
+                               age={age}
+              />
             }
           )}
         </>

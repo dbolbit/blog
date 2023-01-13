@@ -1,6 +1,6 @@
 import React, {FC, Suspense, useEffect, useState} from 'react'
 import {Await, useAsyncValue, useLoaderData} from "react-router-dom"
-import {AnimatePresence} from "framer-motion"
+import {AnimatePresence, motion} from "framer-motion"
 import Todo from "./Todo"
 import {useAppSelector} from "../../hooks/useCustomRTKSelectors"
 import {ITodo} from "../../pages/mainPages/TodoPage"

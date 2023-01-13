@@ -81,7 +81,7 @@ const UsersPage: FC = (props) => {
         </Layout>
         <Layout style={{margin: '20px 0px'}}>
           {
-            !inputValue.length && (
+            !inputValue.length && listVariables === 'cards' && (
               <Button type="primary"
                       style={{margin: '0 auto'}}
                       onClick={handlerClick}
@@ -99,7 +99,7 @@ const UsersPage: FC = (props) => {
 
 export default UsersPage
 const getUsers = async (skip = 0) => {
-  const data = await fetch(`https://dummyjson.com/users?limit=10&select=company,firstName,lastName,image&skip=${skip}`)
+  const data = await fetch(`https://dummyjson.com/users?limit=10&select=company,age,firstName,lastName,image&skip=${skip}`)
   const result: User = await data.json()
   return result
 }
@@ -107,7 +107,7 @@ export const usersLoader = async () => {
   return defer({users: getUsers()})
 }
 const searchUser = async (value: string) => {
-  const data = await fetch(`https://dummyjson.com/users/search?q=${value}&select=firstName,lastName,image,company`)
+  const data = await fetch(`https://dummyjson.com/users/search?q=${value}&select=age,firstName,lastName,image,company`)
   const result: User = await data.json()
   return result
 }

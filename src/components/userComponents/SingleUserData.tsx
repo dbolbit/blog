@@ -1,7 +1,7 @@
 import React, {FC, useEffect} from 'react'
 import {useAsyncValue} from "react-router-dom"
 
-const UserData: FC = (props) => {
+const SingleUserData: FC = (props) => {
   const user = useAsyncValue()
   useEffect(() => {
     console.log(user)
@@ -16,4 +16,4 @@ const UserData: FC = (props) => {
 }
 
 
-export default UserData
+export default SingleUserData

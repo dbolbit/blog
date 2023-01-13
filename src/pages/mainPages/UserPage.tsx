@@ -1,7 +1,7 @@
 import React, {FC, useEffect, Suspense} from 'react'
 import {Layout, Spin} from "antd"
 import {Await, defer, useAsyncValue, useLoaderData} from "react-router-dom"
-import UserData from "../../components/userComponents/UserData"
+import SingleUserData from "../../components/userComponents/SingleUserData"
 import {User} from "../../store/slices/userSlice"
 
 const UserPage: FC = (props) => {
@@ -11,7 +11,7 @@ const UserPage: FC = (props) => {
     <Layout>
       <Suspense fallback={<Spin size="large" className="spin-center"/>}>
         <Await resolve={user}>
-          <UserData/>
+          <SingleUserData/>
         </Await>
       </Suspense>
     </Layout>

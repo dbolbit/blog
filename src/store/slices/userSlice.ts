@@ -1,7 +1,6 @@
 import {createSlice, PayloadAction, createAsyncThunk} from "@reduxjs/toolkit"
 import {IFetchData} from "../../pages/mainPages/LoginPage"
 import axios from "axios"
-import {redirect} from "react-router"
 
 export interface User extends IFetchData {
   isAuth?: boolean,
@@ -9,7 +8,8 @@ export interface User extends IFetchData {
   phone?: string,
   university?: string,
   company?: CompanyUser,
-  isLoading?: boolean
+  isLoading?: boolean,
+  age?: number
 }
 
 interface CompanyUser {
@@ -39,7 +39,7 @@ export const fetchUserById = createAsyncThunk(
     console.log(response)
     if (response.data.message) {
       localStorage.clear()
-      
+
       return rejectWithValue(401)
 
     } else {

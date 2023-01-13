@@ -8,7 +8,7 @@ export interface UserCardProps extends User {
 }
 
 
-const UserCard: FC<UserCardProps> = ({id, firstName, lastName, image, company}) => {
+const UserCard: FC<UserCardProps> = ({age, id, firstName, lastName, image, company}) => {
   return (
     <div>
       <>
@@ -16,7 +16,10 @@ const UserCard: FC<UserCardProps> = ({id, firstName, lastName, image, company}) 
           <Meta
             avatar={<Avatar size={100} src={`${image}`} style={{border: '1px solid gray'}}/>}
             title={<Link to={`/users/${id}`}>{firstName} {lastName}</Link>}
-            description={company?.title}
+            description={<section>
+              <p>{age} years</p>
+              <p>{company?.title}</p>
+            </section>}
           />
         </Card>
       </>
