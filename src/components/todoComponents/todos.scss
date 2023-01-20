@@ -54,3 +54,33 @@
 
 
 }
+
+.todo_checkbox_label {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 70px;
+  transform: translateY(-50%);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 70%;
+
+}
+
+.todo_item {
+
+  position: relative;
+
+  span {
+    margin-right: 30px;
+  }
+
+  svg {
+    cursor: pointer;
+    width: auto;
+
+    &:hover {
+      color: orange;
+    }
+  }
+}

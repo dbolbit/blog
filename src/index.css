@@ -122,6 +122,31 @@ body {
   position: relative;
 }
 
+.todo_checkbox_label {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 70px;
+  transform: translateY(-50%);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 70%;
+}
+
+.todo_item {
+  position: relative;
+}
+.todo_item span {
+  margin-right: 30px;
+}
+.todo_item svg {
+  cursor: pointer;
+  width: auto;
+}
+.todo_item svg:hover {
+  color: orange;
+}
+
 .user_page_container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -140,8 +165,49 @@ body {
 }
 
 .tab_container {
-  background-color: pink;
-  min-height: 300px;
+  min-height: 250px;
+  height: auto;
+  width: auto;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  gap: 25px;
+}
+.tab_container .buttons_wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: start;
+  flex-direction: row;
+  gap: 10px;
+}
+.tab_container table {
+  margin: 0;
+  padding: 0;
+  width: 400px;
+}
+.tab_container table input {
+  border: none;
+  outline: none;
+}
+.tab_container td {
+  padding: 10px 0;
+  text-align: center;
+  height: 50px;
+  border-bottom: 1px solid grey;
+}
+.tab_container td:first-child {
+  color: grey;
+  font-style: italic;
+  width: 30%;
+}
+.tab_container td:nth-child(2) {
+  width: 70%;
+}
+.tab_container td:nth-child(2) input {
+  width: 70%;
+  border: 1px solid grey;
+  border-radius: 5px;
+  text-align: center;
 }
 
 /*# sourceMappingURL=index.css.map */

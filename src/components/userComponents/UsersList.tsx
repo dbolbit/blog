@@ -16,7 +16,7 @@ interface UserListProps {
 
   setMaxUsers: (num: number) => void,
   usersState: User[]
-  setUsersState: ([]: User[]) => void,
+  setUsersState: React.Dispatch<React.SetStateAction<User[]>>,
   viewType: UsersListVariables
 }
 
@@ -34,21 +34,11 @@ const UsersList: FC<UserListProps> = ({viewType, setMaxUsers, usersState, setUse
     <>
       {viewType === "table" ? (
         <>
-          <UsersTable users={usersState}/>
+          <UsersTable setUsersState={setUsersState} users={usersState}/>
         </>
       ) : (
         <>
-          {usersState.map(el => {
-              const {id, firstName, lastName, image, company, age} = el
-              return <UserCard key={id} id={id}
-                               firstName={firstName}
-                               lastName={lastName}
-                               image={image}
-                               company={company}
-                               age={age}
-              />
-            }
-          )}
+          {usersState.map(el => <UserCard key={el.id} data={el}/>)}
         </>
       )}
     </>

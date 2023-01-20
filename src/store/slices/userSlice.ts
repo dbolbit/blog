@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction, createAsyncThunk} from "@reduxjs/toolkit"
 import {IFetchData} from "../../pages/mainPages/LoginPage"
-import axios from "axios"
+import axios, {AxiosError, AxiosResponse} from "axios"
 
 export interface User extends IFetchData {
   isAuth?: boolean,
@@ -9,7 +9,8 @@ export interface User extends IFetchData {
   university?: string,
   company?: CompanyUser,
   isLoading?: boolean,
-  age?: number
+  age?: number,
+  isError?: number | null
 }
 
 interface CompanyUser {
@@ -21,34 +22,28 @@ interface CompanyUser {
 
 
 export type IFetch = {
-  id: number | null | undefined,
-  token: string | null | undefined
+  id: number | undefined,
+  token: string | undefined
 }
 
 export const fetchUserById = createAsyncThunk(
   "user/fetchUser",
   async ({id, token}: IFetch, {rejectWithValue}) => {
-
-    const response = await axios.get<User>(`https://dummyjson.com/auth/users/${id}`, {
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
-      }
-    })
-    console.log(response.status)
-    console.log(response)
-    if (response.data.message) {
-      localStorage.clear()
-
-      return rejectWithValue(401)
-
-    } else {
+    try {
+      const response = await axios.get<User>(`https://dummyjson.com/auth/users/${id}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      })
       return response.data as User
+    } catch (e: any) {
+      // console.log(e.response.status)
+      return rejectWithValue(e.response.status)
     }
-
   }
 )
-const initialState: User = {isAuth: false, isLoading: false}
+const initialState: User = {isAuth: false, isLoading: false, isError: null}
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -58,16 +53,18 @@ const userSlice = createSlice({
     },
     logOutUser: () => {
       return {isAuth: false}
+    },
+    updateUser: (state, action: PayloadAction<User>) => {
+      return {...state, ...action.payload}
     }
   },
   extraReducers: builder => {
     builder.addCase(fetchUserById.fulfilled, (state, action: PayloadAction<User>) => {
       return {...action.payload, isAuth: true, isLoading: false}
     })
-    builder.addCase(fetchUserById.rejected, (state, action) => {
-      console.log(action.error.message)
+    builder.addCase(fetchUserById.rejected, (state, action: PayloadAction<any>) => {
 
-      return {...state, isAuth: false, isLoading: false}
+      return {...state, isAuth: false, isLoading: false, isError: action.payload}
     })
     builder.addCase(fetchUserById.pending, (state, action) => {
       return {...state, isAuth: false, isLoading: true}
@@ -75,5 +72,5 @@ const userSlice = createSlice({
 
   }
 })
-export const {logInUser, logOutUser} = userSlice.actions
+export const {logInUser, logOutUser, updateUser} = userSlice.actions
 export default userSlice.reducer

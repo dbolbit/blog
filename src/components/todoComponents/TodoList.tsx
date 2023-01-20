@@ -1,38 +1,41 @@
 import React, {FC, Suspense, useEffect, useState} from 'react'
-import {Await, useAsyncValue, useLoaderData} from "react-router-dom"
 import {AnimatePresence, motion} from "framer-motion"
-import Todo from "./Todo"
-import {useAppSelector} from "../../hooks/useCustomRTKSelectors"
+import {useAppDispatch, useAppSelector} from "../../hooks/useCustomRTKSelectors"
 import {ITodo} from "../../pages/mainPages/TodoPage"
+import {List} from "antd"
+import {MListTodoItem} from "./ListTodoItem"
+import {Reorder} from "framer-motion"
+import {dragTodos} from "../../store/slices/todosSlice"
 
-interface TodoListProps {
-  todos: ITodo[] | [],
-  addTodos: (todos: ITodo[]) => void,
-  removeTodo: (id: number) => void
-}
-
-const TodoList: FC<TodoListProps> = ({todos, addTodos, removeTodo}) => {
-  const list: any = useAsyncValue()
-
-  useEffect(() => {
-    // console.log(list)
-    addTodos(list)
-  }, [])
-
+const TodoList: FC = () => {
+  const todos = useAppSelector(state => state.todos)
+  const dispatch = useAppDispatch()
   return (
 
     <div className="todo_wrapper">
-
-      <ul>
-        <AnimatePresence>
-          {todos.map(todo => <Todo removeTodo={removeTodo} key={todo.id} data={todo}/>)}
-        </AnimatePresence>
-      </ul>
-
-
+      <AnimatePresence>
+        <Reorder.Group values={todos.map(el => el.id)} axis="y" onReorder={(value) => dispatch(dragTodos(value))}>
+          <List
+            size="large"
+            bordered
+            dataSource={todos}
+            renderItem={(item: ITodo) => (
+              // <Reorder.Item value={item.id} key={item.id}>
+              <MListTodoItem
+                key={item.todo}
+                animate={{opacity: 1}}
+                exit={{opacity: 0}}
+                transition={{duration: 1}}
+                item={item}/>
+              // </Reorder.Item>
+            )
+            }/>
+        </Reorder.Group>
+      </AnimatePresence>
     </div>
 
   )
 }
 
 export default TodoList
+

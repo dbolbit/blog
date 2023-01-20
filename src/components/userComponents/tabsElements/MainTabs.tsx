@@ -1,12 +1,12 @@
-import React, {FC} from 'react'
-import {Layout, Typography} from "antd"
+import React, {FC, useState} from 'react'
+import {Button, Layout, Typography, Tooltip} from "antd"
+import UserTableForm from "./UserTableForm"
 
-const {Title} = Typography
+
 const MainTabs: FC = (props) => {
-
   return (
     <Layout className="tab_container">
-      <Title>Hello its general information about me</Title>
+      <UserTableForm/>
     </Layout>
   )
 }

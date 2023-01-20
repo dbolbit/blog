@@ -1,57 +1,53 @@
-import React, {useState, useEffect, Suspense, lazy} from "react"
+import React, {useState} from "react"
 import {Button, Input, Space, Spin} from 'antd'
-import {Await, useLoaderData, useAsyncValue, defer} from 'react-router-dom'
 import TodoList from "../../components/todoComponents/TodoList"
 import {Layout} from "antd"
+import {useAppDispatch, useAppSelector} from "../../hooks/useCustomRTKSelectors"
+import {addTodo} from "../../store/slices/todosSlice"
+import {motion, Variants} from "framer-motion"
+import {pagesAnimationVariants} from "../animation/PagesAnimation"
 
 export type ITodo = {
   id: number,
   todo: string,
   completed: boolean,
-  userId?: number
+  userId?: number,
+  isLoading?: boolean
 }
 
 const TodoPage: React.FC = (props) => {
   const [inputValue, setInputValue] = useState<string>('')
-  const [todos, setTodos] = useState<ITodo[]>([])
-  const {list}: any = useLoaderData()
-  const addTodos = (todos: ITodo[]) => {
-    setTodos(prev => [...prev, ...todos])
-  }
-  const removeTodo = (id: number) => {
-    setTodos(prev => prev.filter(el => el.id !== id))
-  }
-  const handlerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value)
-  }
+  const saveId = Number(localStorage.getItem('id'))
+  const dispatch = useAppDispatch()
   const handlerClick = (e: React.MouseEvent) => {
-    const todo: ITodo = {
-      id: Date.now(),
-      todo: inputValue,
-      completed: false
-    }
-    setTodos(prev => [todo, ...prev])
-    setInputValue('')
-  }
-  const handlerKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      const todo: ITodo = {
-        id: Date.now(),
-        todo: inputValue,
-        completed: false
-      }
-      setTodos(prev => [todo, ...prev])
+    if (inputValue) {
+      const todo = new Todo(inputValue, saveId)
+      dispatch(addTodo(todo))
       setInputValue('')
     }
   }
+  const handlerKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && inputValue) {
+      const todo = new Todo(inputValue, saveId)
+      dispatch(addTodo(todo))
+      setInputValue('')
+    }
+  }
+
   return (
-    <div style={{width: '100%'}}>
+    <motion.div
+      variants={pagesAnimationVariants}
+      initial={'start'}
+      animate={'animate'}
+      exit={'end'}
+      transition={{duration: 0.5}}
+      style={{width: '100%'}}>
       <Layout>
         <Space className="todo_input_wrapper"
         >
           <Input
             onKeyDown={handlerKey}
-            onChange={handlerChange}
+            onChange={(e) => setInputValue(e.target.value)}
             value={inputValue}
             style={{width: 400}}
             size="large"
@@ -60,35 +56,28 @@ const TodoPage: React.FC = (props) => {
         </Space>
       </Layout>
       <Layout style={{position: "relative", minHeight: '50vh'}}>
-        <Suspense fallback={<Spin className="spin-center" size="large"/>}>
-          <Await resolve={list}>
-            <TodoList todos={todos} addTodos={addTodos} removeTodo={removeTodo}/>
-          </Await>
-        </Suspense>
+        <TodoList/>
       </Layout>
-    </div>
+    </motion.div>
   )
 }
 
 
 export default TodoPage
 
-export const fetchTodos = async () => {
-  const saveId = localStorage.getItem('id')
-  const token = localStorage.getItem('token')
-  if (saveId) {
-    const id = +saveId
-    return defer({list: testFetch(id, token)})
+export class Todo implements ITodo {
+  public todo: string
+  public id: number
+  public completed: boolean
+  public userId: number
+
+  constructor(value: string, userID: number) {
+    this.todo = value
+    this.id = Date.now()
+    this.completed = false
+    this.userId = userID
   }
 
-}
-const testFetch = async (id: number, token: string | null) => {
-  const result = await fetch(`https://dummyjson.com/auth/users/${id}/todos`, {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-  })
-  const res = await result.json()
-  return res.todos
+  // id: number = Date.now()
+  // completed: boolean = false
 }

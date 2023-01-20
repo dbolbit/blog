@@ -7,6 +7,8 @@ import {User} from "../../store/slices/userSlice"
 import {useNavigate} from "react-router"
 import useAuth from "../../hooks/useAuth"
 import MainTabs from '../../components/userComponents/tabsElements/MainTabs'
+import {motion} from 'framer-motion'
+import {pagesAnimationVariants} from "../animation/PagesAnimation"
 
 const {Title} = Typography
 
@@ -41,13 +43,20 @@ const CabinetPage: FC = (props) => {
     if (!isAuth) {
       navigator('/login')
     }
-  })
+    // console.log(user)
+  }, [isAuth])
 
 
   return (
-    <Layout style={{height: '100%'}}>
+    <motion.div
+      variants={pagesAnimationVariants}
+      initial={'start'}
+      animate={'animate'}
+      exit={'end'}
+      transition={{duration: 0.5}}
+      style={{height: '100%'}}>
       <Layout style={{display: "flex", flexDirection: 'row'}}>
-        <Avatar size={250} src={user.image} shape={"square"} style={{border: '1px solid grey'}}/>
+        <Avatar size={250} src={user.image} shape={"square"} style={{border: '1px solid grey', minWidth: 250}}/>
         <Layout style={{marginLeft: 20}}>
           <Title style={{margin: 0}}>{user.firstName} {user.lastName}</Title>
           <Title level={4} style={{margin: 0, color: 'grey', fontStyle: 'italic'}}>@{user.username}</Title>
@@ -67,21 +76,9 @@ const CabinetPage: FC = (props) => {
           </Layout>
         </Layout>
       </Layout>
-    </Layout>
+    </motion.div>
   )
 }
 
 
 export default CabinetPage
-
-// <div className={`cabinet`}>
-//   <div className={`user`}>
-//     <div className="user__avatar">
-//       <Avatar src={user.image} shape="circle" size={200} style={{border: '1px solid grey'}} icon={<UserOutlined/>}/>
-//     </div>
-//     <div className="user__info">
-//       <h1>{user.firstName}</h1>
-//       <h3>{user.lastName}</h3>
-//     </div>
-//   </div>
-// </div>

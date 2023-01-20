@@ -14,6 +14,62 @@
 }
 
 .tab_container {
-  background-color: pink;
-  min-height: 300px;
+  min-height: 250px;
+  height: auto;
+  //border: 2px solid black;
+  width: auto;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  gap: 25px;
+
+  .buttons_wrapper {
+    margin-top: 20px;
+    display: flex;
+    justify-content: start;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  table {
+    margin: 0;
+    padding: 0;
+    width: 400px;
+    //border: 5px solid green;
+    input {
+      border: none;
+      outline: none;
+    }
+  }
+
+
+  td {
+    padding: 10px 0;
+    text-align: center;
+    height: 50px;
+    border-bottom: 1px solid grey;
+    //border: 3px solid red;
+
+    &:first-child {
+      //padding-right: 20px;
+      //width: auto;
+      color: grey;
+      font-style: italic;
+      width: 30%;
+    }
+
+    &:nth-child(2) {
+      width: 70%;
+
+      input {
+        width: 70%;
+        border: 1px solid grey;
+        border-radius: 5px;
+        text-align: center;
+      }
+    }
+  }
+
 }
+
+

@@ -4,12 +4,15 @@ import {Space, Table, Avatar} from 'antd'
 import type {ColumnsType} from 'antd/es/table'
 import {Link} from "react-router-dom"
 
+import {getUsers, PROJECT_URL} from '../../pages/mainPages/UsersPage'
+
 interface UsersTableProps {
-  users: User[]
+  users: User[],
+  setUsersState: React.Dispatch<React.SetStateAction<User[]>>
 }
 
 interface DataType {
-  id?: number,
+  key: number,
   mainData: string[];
   age: number,
   position: string,
@@ -48,13 +51,19 @@ const columns: ColumnsType<DataType> = [
 
 ]
 
-const UsersTable: FC<UsersTableProps> = ({users}) => {
+const UsersTable: FC<UsersTableProps> = ({users, setUsersState}) => {
   const usersTableData = rebuildData(users)
+  const handlerChangePagination = async (page: number, pageSize: number) => {
+    const value: number = (pageSize * page) - 10
+    const data = await getUsers(PROJECT_URL.getUsers, value)
+    setUsersState(data.users)
+  }
   return <Table
     columns={columns}
     dataSource={usersTableData}
     pagination={{
       total: 100,
+      onChange: handlerChangePagination
     }}
   />
 }
@@ -65,7 +74,7 @@ function rebuildData(data: User[]) {
   const result: any = []
   data.forEach(el => {
     const obj: object = {
-      id: el.id,
+      key: el.id,
       mainData: [el.firstName, el.lastName, el.image, el.id],
       age: el.age,
       position: el.company?.title,

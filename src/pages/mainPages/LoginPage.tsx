@@ -6,6 +6,8 @@ import {useAppDispatch} from "../../hooks/useCustomRTKSelectors"
 import {logInUser} from "../../store/slices/userSlice"
 import {useNavigate} from "react-router"
 import useAuth from "../../hooks/useAuth"
+import {motion} from "framer-motion"
+import {pagesAnimationVariants} from "../animation/PagesAnimation"
 
 const {Item} = Form
 
@@ -23,11 +25,16 @@ export type IFetchData = {
   lastName?: string,
   token?: string,
   username?: string,
-  message?: string
-
+  message?: string,
+  address?: Address
 }
 
-
+type Address = {
+  address: string,
+  city: string,
+  postalCode: string,
+  state: string
+}
 const fetchLogin = async (data: UserLogin) => {
 
   try {
@@ -71,7 +78,13 @@ const LoginPage: React.FC = (props) => {
   })
 
   return (
-    <Layout style={{height: 'auto'}}>
+    <motion.div
+      variants={pagesAnimationVariants}
+      initial={'start'}
+      animate={'animate'}
+      exit={'end'}
+      transition={{duration: 0.5}}
+      style={{height: 'auto'}}>
       <div style={{height: 400}}>
         <div style={{width: 350, margin: '50px auto'}}>
           <Form
@@ -123,7 +136,7 @@ const LoginPage: React.FC = (props) => {
         0lelplR
       </div>
 
-    </Layout>
+    </motion.div>
   )
 }
 

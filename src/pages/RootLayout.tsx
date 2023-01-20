@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react'
 import {Outlet} from 'react-router-dom'
-import {Avatar, Layout, Menu, Spin} from 'antd'
+import {Avatar, Badge, Layout, Menu, Spin} from 'antd'
 import {Link} from "react-router-dom"
 import {
   UserOutlined,
@@ -11,10 +11,14 @@ import {
   LogoutOutlined,
   LoginOutlined
 } from '@ant-design/icons'
-import {redirect, useLocation, useNavigate} from "react-router"
+import {useLocation, useNavigate} from "react-router"
 import useAuth from "../hooks/useAuth"
 import {useAppDispatch, useAppSelector} from "../hooks/useCustomRTKSelectors"
 import {fetchUserById, User, logOutUser} from "../store/slices/userSlice"
+import {fetchToStoreTodos} from "../store/slices/todosSlice"
+import {AntTreeNodeSelectedEvent} from "antd/es/tree"
+import {MenuItemType} from "antd/es/menu/hooks/useItems"
+import {AnimatePresence} from "framer-motion"
 
 
 const {Header, Sider, Content, Footer} = Layout
@@ -30,7 +34,7 @@ const RootLayout: React.FC = (props) => {
     {
       key: '/todos',
       icon: <UnorderedListOutlined/>,
-      label: <Link to="todos">Заметки</Link>,
+      label: <Link to="todos"> Заметки</Link>,
     },
     {
       key: '/users',
@@ -48,14 +52,21 @@ const RootLayout: React.FC = (props) => {
   const dispatch = useAppDispatch()
   const user: User = useAppSelector(state => state.user)
   const gender: string | undefined = user.gender
-  const isLoading: boolean | undefined = useAppSelector(state => state.user.isLoading)
+  const {isLoading, isError} = useAppSelector(state => state.user)
   useEffect(() => {
     if (saveID) {
       const id: number = +saveID
       dispatch(fetchUserById({id, token}))
+      dispatch(fetchToStoreTodos({id, token}))
     }
 
   }, [saveID])
+  useEffect(() => {
+    if (isError) {
+      navigator('/login')
+    }
+
+  }, [isError])
 
   const handlerLogInOut = (e: React.MouseEvent) => {
     if (isAuth) {
@@ -64,6 +75,7 @@ const RootLayout: React.FC = (props) => {
     }
     navigator('/login')
   }
+
 
   return (
     <>
@@ -93,6 +105,7 @@ const RootLayout: React.FC = (props) => {
                   collapsible
                   theme="dark"
                   trigger={null}
+
                 >
                   <Menu
                     style={{position: 'sticky', top: 0}}
@@ -111,7 +124,9 @@ const RootLayout: React.FC = (props) => {
                 </Sider>
               )}
               <Content className={`main_content_wrapper bg-${gender}`}>
-                <Outlet/>
+                <AnimatePresence initial={false}>
+                  <Outlet/>
+                </AnimatePresence>
               </Content>
             </Layout>
           )}
@@ -121,7 +136,9 @@ const RootLayout: React.FC = (props) => {
 
       </Layout>
       <Layout>
-        <Footer style={{backgroundColor: 'red'}}>
+        <Footer
+          style={{backgroundColor: '#001529'}}
+        >
           <span style={{color: 'white'}}>Footer</span>
         </Footer>
       </Layout>
