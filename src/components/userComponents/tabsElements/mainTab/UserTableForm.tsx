@@ -1,9 +1,9 @@
 import React, {FC, useMemo, useCallback, memo, useEffect, useState, useRef, Ref} from 'react'
 import {Form, Formik, Field, FormikValues} from "formik"
-import {useAppDispatch, useAppSelector} from "../../../hooks/useCustomRTKSelectors"
+import {useAppDispatch, useAppSelector} from "../../../../hooks/useCustomRTKSelectors"
 import {Button, Tooltip} from "antd"
 import MyTable from "./MyTable"
-import {updateUser, User} from "../../../store/slices/userSlice"
+import {updateUser, User} from "../../../../store/slices/userSlice"
 
 
 export type TableTypeData = {

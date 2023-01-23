@@ -1,14 +1,14 @@
-import React, {FC, useEffect} from 'react'
+import {FC, useEffect} from 'react'
 import {Avatar, Layout, Tabs, Typography} from 'antd'
-import {UserOutlined} from '@ant-design/icons'
 import {useAppSelector} from "../../hooks/useCustomRTKSelectors"
 import {IFetchData} from "./LoginPage"
 import {User} from "../../store/slices/userSlice"
 import {useNavigate} from "react-router"
 import useAuth from "../../hooks/useAuth"
-import MainTabs from '../../components/userComponents/tabsElements/MainTabs'
 import {motion} from 'framer-motion'
 import {pagesAnimationVariants} from "../animation/PagesAnimation"
+import {MainTabs, PostTab} from "../../components/userComponents/tabsElements"
+import {Link, Outlet} from "react-router-dom"
 
 const {Title} = Typography
 
@@ -30,8 +30,8 @@ const itemsTabs = [
   },
   {
     id: 3,
-    label: 'Мои посты',
-    children: <Title>Мои посты</Title>
+    label: <Link to="/cabinet/posts">Мои посты</Link>,
+    children: <Outlet/>
   },
 ]
 

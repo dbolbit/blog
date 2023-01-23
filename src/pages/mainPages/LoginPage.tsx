@@ -13,7 +13,8 @@ const {Item} = Form
 
 type UserLogin = {
   username: string,
-  password: string
+  password: string,
+  remember?: boolean
 }
 
 export type IFetchData = {
@@ -58,17 +59,17 @@ const LoginPage: React.FC = (props) => {
   const {isAuth} = useAuth()
   const navigator = useNavigate()
   const onFinish = async (values: any) => {
-    const {username, password}: UserLogin = values
-    const loginData: UserLogin = {username, password}
-    const res: IFetchData = await fetchLogin(loginData)
+    const {username, password, remember}: UserLogin = values
+    const res: IFetchData = await fetchLogin({username, password})
     if (res.message) {
       alert(res.message)
     } else {
-      localStorage.setItem('token', `${res.token}`)
-      localStorage.setItem('id', `${res.id}`)
+      if (remember) {
+        localStorage.setItem('token', `${res.token}`)
+        localStorage.setItem('id', `${res.id}`)
+      }
       dispatch(logInUser(res))
       navigator('/cabinet')
-
     }
   }
   useEffect(() => {

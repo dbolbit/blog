@@ -20,25 +20,26 @@ const ListTodoItem: FC<ListTodoItemProps> = forwardRef(({item}, ref: Ref<any>) =
   const dispatch = useAppDispatch()
 
   return (
-    <Reorder.Item value={item.id} key={item.id}>
+    // <Reorder.Item value={item.id} key={item.id}>
 
-      <Item className="todo_item" ref={ref}>
-        <Checkbox
-          checked={todo.completed}
-          id={`check-${item.id}`}
-          onChange={() => dispatch(toggleDone(item.id))}/>
-        <label
-          htmlFor={`check-${item.id}`}
-          className={`todo_checkbox_label ${todo.completed && 'completed'}`}
-        >
-          {item.todo}
+    <Item className="todo_item" ref={ref}>
+      <Checkbox
+        checked={todo.completed}
+        id={`check-${item.id}`}
+        onChange={() => dispatch(toggleDone(item.id))}
+      />
+      <label
+        htmlFor={`check-${item.id}`}
+        className={`todo_checkbox_label ${todo.completed && 'completed'}`}
+      >
+        {item.todo}
 
-        </label>
-        <DeleteOutlined
-          onClick={() => dispatch(removeTodo(item.id))}
-        />
-      </Item>
-    </Reorder.Item>
+      </label>
+      <DeleteOutlined
+        onClick={() => dispatch(removeTodo(item.id))}
+      />
+    </Item>
+    // </Reorder.Item>
   )
 })
 

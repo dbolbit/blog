@@ -14,23 +14,19 @@ const TodoList: FC = () => {
 
     <div className="todo_wrapper">
       <AnimatePresence>
-        <Reorder.Group values={todos.map(el => el.id)} axis="y" onReorder={(value) => dispatch(dragTodos(value))}>
-          <List
-            size="large"
-            bordered
-            dataSource={todos}
-            renderItem={(item: ITodo) => (
-              // <Reorder.Item value={item.id} key={item.id}>
-              <MListTodoItem
-                key={item.todo}
-                animate={{opacity: 1}}
-                exit={{opacity: 0}}
-                transition={{duration: 1}}
-                item={item}/>
-              // </Reorder.Item>
-            )
-            }/>
-        </Reorder.Group>
+        <List
+          size="large"
+          bordered
+          dataSource={todos}
+          renderItem={(item: ITodo) => (
+            <MListTodoItem
+              key={item.todo}
+              animate={{opacity: 1}}
+              exit={{opacity: 0}}
+              transition={{duration: 1}}
+              item={item}/>
+          )
+          }/>
       </AnimatePresence>
     </div>
 
