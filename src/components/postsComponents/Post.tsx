@@ -1,12 +1,12 @@
-import {FC, useState, useRef, useEffect, forwardRef, Ref} from 'react'
+import React, {FC, useState, useRef, useEffect, forwardRef, Ref, ReactElement} from 'react'
 import {IPost} from "../userComponents/tabsElements/postsTab/PostsList"
 import {Card} from "antd"
-import {CaretDownFilled, HeartFilled} from '@ant-design/icons'
-import {motion} from "framer-motion"
+import {CaretDownFilled, HeartFilled, CaretUpFilled} from '@ant-design/icons'
 import Comment from "./Comment"
 
-interface PostProps {
-  post: IPost
+export interface PostProps {
+  post: IPost,
+  children?: ReactElement
 }
 
 export type CommentsType = {
@@ -18,22 +18,27 @@ export type CommentsType = {
     username: string
   }
 }
-type CommentFetchType = {
+export type FetchType = {
   total: number
   limit: number
   skip: number
+}
+
+interface CommentFetchType extends FetchType {
   comments: CommentsType[]
 }
-const Post: FC<PostProps> = ({post}) => {
+
+const Post: FC<PostProps> = ({post, children}) => {
 
   const pRef = useRef<HTMLParagraphElement | null>(null)
-  const {title, body, reactions, id} = post
+  const {title, body, reactions, id, tags} = post
   const [comments, setComments] = useState<CommentsType[]>([])
   const [likes, setLikes] = useState<number>(reactions)
   const [isLiked, setIsLiked] = useState<boolean>(false)
   const [isShow, setIsShow] = useState<boolean>(false)
   const [isHidden, setIsHidden] = useState<boolean>(false)
   const [isCommentShow, setIsCommentShow] = useState<boolean>(false)
+
   const handlerLikeClick = () => {
     setLikes(prev => isLiked ? prev - 1 : prev + 1)
     setIsLiked(!isLiked)
@@ -51,26 +56,38 @@ const Post: FC<PostProps> = ({post}) => {
         const data = await fetch(`https://dummyjson.com/comments/post/${id}`)
         const result: CommentFetchType = await data.json()
         setComments(result.comments)
-        console.log(result.comments)
+        // console.log(result.comments)
       } catch (e) {
         console.log(e)
       }
     })()
   }, [id])
 
-  const handlerCommentClick = () => {
-
-  }
+  const postTitle = (
+    <div>
+      <span>{title}</span>
+      <section className="post_tag_container">{tags?.map(el => <span key={el}>#{el}</span>)}</section>
+    </div>
+  )
   return (
-    <Card className="post" title={title}
+    <Card className="post" title={postTitle}
           extra={isHidden && <a onClick={() => setIsShow(!isShow)}>{!isShow ? 'more..' : 'less..'}</a>}>
       <p style={{display: isShow ? '' : '-webkit-box'}} className="post_info" ref={pRef}>{body}</p>
       <span className={`post_likes ${isLiked && 'post_likes__active'}`}>{likes} <HeartFilled
         onClick={handlerLikeClick}/></span>
-      <div style={{margin: '0 auto', textAlign: 'center'}}>
-        {isCommentShow && comments.map(el => <Comment key={el.id} data={el}/>)}
-        <CaretDownFilled size={50} className="post_comment_btn" onClick={() => setIsCommentShow(!isCommentShow)}/>
-      </div>
+      {comments.length && (
+        <div className="comment_container">
+          {
+            isCommentShow &&
+            <>
+              {comments.map(el => <Comment key={el.id} data={el}/>)}
+              {children}
+            </> || <span>({comments.length} коментариев)</span>
+          }
+          <CaretDownFilled className="post_comment_btn" onClick={() => setIsCommentShow(!isCommentShow)}/>
+
+        </div>
+      )}
 
     </Card>
   )
@@ -79,3 +96,4 @@ const Post: FC<PostProps> = ({post}) => {
 
 export default Post
 // export const MPost = motion(Post)
+

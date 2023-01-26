@@ -9,15 +9,15 @@ import {
   UnorderedListOutlined,
   IdcardOutlined,
   LogoutOutlined,
-  LoginOutlined
+  LoginOutlined,
+  RocketOutlined
 } from '@ant-design/icons'
 import {useLocation, useNavigate} from "react-router"
 import useAuth from "../hooks/useAuth"
 import {useAppDispatch, useAppSelector} from "../hooks/useCustomRTKSelectors"
 import {fetchUserById, User, logOutUser} from "../store/slices/userSlice"
 import {fetchToStoreTodos} from "../store/slices/todosSlice"
-import {AntTreeNodeSelectedEvent} from "antd/es/tree"
-import {MenuItemType} from "antd/es/menu/hooks/useItems"
+
 import {AnimatePresence} from "framer-motion"
 
 
@@ -26,6 +26,11 @@ const {Header, Sider, Content, Footer} = Layout
 
 const RootLayout: React.FC = (props) => {
   const itemsList = [
+    {
+      key: '/news',
+      icon: <RocketOutlined/>,
+      label: <Link to="news">Новости</Link>,
+    },
     {
       key: '/cabinet',
       icon: <IdcardOutlined/>,
@@ -51,7 +56,6 @@ const RootLayout: React.FC = (props) => {
   const token = localStorage.getItem('token') as string | undefined
   const dispatch = useAppDispatch()
   const user: User = useAppSelector(state => state.user)
-  const gender: string | undefined = user.gender
   const {isLoading, isError} = useAppSelector(state => state.user)
   useEffect(() => {
     if (saveID) {
@@ -110,7 +114,7 @@ const RootLayout: React.FC = (props) => {
                   <Menu
                     style={{position: 'sticky', top: 0}}
                     theme="dark"
-                    mode="inline"
+                    mode="vertical"
                     defaultSelectedKeys={[`${pathname}`]}
                     items={itemsList}
                   >
@@ -123,7 +127,7 @@ const RootLayout: React.FC = (props) => {
                   </div>
                 </Sider>
               )}
-              <Content className={`main_content_wrapper bg-${gender}`}>
+              <Content className={`main_content_wrapper`}>
                 <AnimatePresence initial={false}>
                   <Outlet/>
                 </AnimatePresence>

@@ -1,20 +1,21 @@
-import React from 'react'
+// import React from 'react'
 import RootLayout from "./pages/RootLayout"
 import {createRoutesFromElements, RouterProvider, Route} from "react-router"
 import {createBrowserRouter} from 'react-router-dom'
-import LoginPage from "./pages/mainPages/LoginPage"
-import CabinetPage from "./pages/mainPages/CabinetPage"
-import TodoPage from "./pages/mainPages/TodoPage"
+import {LoginPage, CabinetPage, TodoPage, UsersPage, UserPage, NewsPage} from "./pages/mainPages"
 import {Provider} from "react-redux"
 import {store} from "./store/store"
-import UsersPage, {usersLoader} from "./pages/mainPages/UsersPage"
-import UserPage, {userLoader} from "./pages/mainPages/UserPage"
+import {usersLoader} from "./pages/mainPages/UsersPage"
+import {userLoader} from "./pages/mainPages/UserPage"
 import {PostTab} from "./components/userComponents/tabsElements"
 import {postsLoader} from "./components/userComponents/tabsElements/postsTab/PostTab"
+import {FC} from "react"
+import {newsLoader} from "./pages/mainPages/NewsPage"
 
 const routes = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<RootLayout/>}>
     <Route path="/login" element={<LoginPage/>}/>
+    <Route path="/news" element={<NewsPage/>} loader={newsLoader}/>
     <Route path="/cabinet" element={<CabinetPage/>}>
       <Route path="/cabinet/posts" element={<PostTab/>} loader={postsLoader}/>
     </Route>
@@ -23,7 +24,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
     <Route path="users/:id" element={<UserPage/>} loader={userLoader}/>
   </Route>
 ))
-const App: React.FC = () => {
+const App: FC = () => {
 
   return (
     <Provider store={store}>
