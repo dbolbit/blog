@@ -1,7 +1,7 @@
 .posts_list_container {
   //border: 5px solid red;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex-direction: column;
   gap: 15px;
@@ -28,8 +28,6 @@
   }
 
   &_info {
-    //display: -webkit-box;
-    //border: 2px solid red;
     transition: .3s linear;
     line-clamp: 2;
     -webkit-line-clamp: 2;
@@ -89,10 +87,26 @@
   }
 }
 
-.newsPost_container {
-  width: 100%;
+.news {
 
-  .ant-input-wrapper {
-    margin-top: 15px;
+  &_filter {
+    //border: 2px solid green;
+    width: 100%;
+    height: fit-content;
+    margin-bottom: 15px;
+  }
+}
+
+.post_with_user {
+  position: relative;
+
+  &__avatar {
+    border: 1px solid lightgray;
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    transform: translate(-30%, -30%);
   }
 }

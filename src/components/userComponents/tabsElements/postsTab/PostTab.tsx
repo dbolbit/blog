@@ -1,12 +1,10 @@
 import {FC, Suspense} from 'react'
 import {Await, defer, LoaderFunction, useLoaderData, json} from "react-router-dom"
 import PostsList, {IPost} from "./PostsList"
+import {FetchType} from "../../../postsComponents/Post"
 
-export type TypePostsFetch = {
-  limit: number
+export interface TypePostsFetch extends FetchType {
   posts: IPost[]
-  skip: number
-  total: number
 }
 
 

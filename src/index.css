@@ -212,7 +212,7 @@ body {
 
 .posts_list_container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex-direction: column;
   gap: 15px;
@@ -287,11 +287,23 @@ body {
   margin: 0;
 }
 
-.newsPost_container {
+.news_filter {
   width: 100%;
+  height: fit-content;
+  margin-bottom: 15px;
 }
-.newsPost_container .ant-input-wrapper {
-  margin-top: 15px;
+
+.post_with_user {
+  position: relative;
+}
+.post_with_user__avatar {
+  border: 1px solid lightgray;
+  background-color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  transform: translate(-30%, -30%);
 }
 
 /*# sourceMappingURL=index.css.map */

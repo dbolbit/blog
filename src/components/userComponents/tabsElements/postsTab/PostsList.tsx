@@ -1,9 +1,9 @@
-import {FC, useEffect} from 'react'
+import React, {FC, Ref, useEffect, useRef, useState} from 'react'
 import {useAsyncValue} from "react-router-dom"
 import {TypePostsFetch} from "./PostTab"
 import {Layout} from "antd"
-import Post from "../../../postsComponents/Post"
-import withUserPost from "../../../../HOC/withUserPost"
+import Post, {PostProps} from "../../../postsComponents/Post"
+import withUser from "../../../../hoc/withUser"
 
 export interface IPost {
   body: string
@@ -14,21 +14,42 @@ export interface IPost {
   userId?: number
 }
 
-
-interface PostListProps {
-  type?: 'post' | 'news'
+type PostListProps = {
+  tags?: string[]
+  type?: 'news' | 'post'
 }
 
-const PostsList: FC<PostListProps> = ({type = 'post'}) => {
-  const {posts} = useAsyncValue() as TypePostsFetch
-  const NewsPost = withUserPost(Post)
-  const Posts = posts.map(el => type === 'post' ? <Post key={el.id} post={el}/>
-    : type === 'news' ? <NewsPost post={el} key={el.id}/> : null)
+const PostsList: FC<PostListProps> = ({tags, type}) => {
+  const {posts, total} = useAsyncValue() as TypePostsFetch
+  const [postsList, setPostsList] = useState<IPost[]>(posts)
+  const [isFetching, setIsFetching] = useState<boolean>(false)
+  const handlerScroll = (e: Event) => {
+    e.preventDefault()
+    if (window.innerHeight + window.scrollY + (window.innerHeight) > document.body.scrollHeight && postsList.length < total) {
+      setIsFetching(true)
+    }
 
-  console.log(posts)
+  }
+  useEffect(() => {
+    document.addEventListener('scroll', handlerScroll)
+    return () => document.removeEventListener('scroll', handlerScroll)
+  },)
+  useEffect(() => {
+    (async function () {
+      if (isFetching) {
+        const response = await fetch(`https://dummyjson.com/posts?limit=30&skip=${postsList.length}`)
+        const result: TypePostsFetch = await response.json()
+        setPostsList(prev => [...prev, ...result.posts])
+        setIsFetching(false)
+      }
+    })()
+
+  }, [isFetching])
+
+
   return (
     <Layout className="posts_list_container">
-      {Posts}
+      {postsList.map(el => <Post post={el} key={el.id} type={type}/>)}
     </Layout>
   )
 }

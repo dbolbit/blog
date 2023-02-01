@@ -1,4 +1,4 @@
-import {FC, useEffect, useState} from 'react'
+import React, {FC, memo, useEffect, useState} from 'react'
 import {CommentsType} from "./Post"
 import {Avatar} from "antd"
 import {Link} from "react-router-dom"
@@ -12,11 +12,10 @@ const Comment: FC<CommentProp> = ({data}) => {
   const [img, setImg] = useState<string>('')
   useEffect(() => {
     (async function () {
-      const data = await fetch(`https://dummyjson.com/users/${user.id}?select=image`)
-      const result: { id: number, image: string } = await data.json()
+      const result = await getUserImage(user.id)
       setImg(result.image)
     })()
-  }, [])
+  }, [data])
 
   return (
     <section className="comment">
@@ -31,3 +30,10 @@ const Comment: FC<CommentProp> = ({data}) => {
 
 
 export default Comment
+
+export async function getUserImage(id: number | undefined) {
+  const data = await fetch(`https://dummyjson.com/users/${id}?select=image`)
+  const result: { id: number, image: string } = await data.json()
+  return result
+
+}
