@@ -12,11 +12,6 @@ import {Link, Outlet} from "react-router-dom"
 
 const {Title} = Typography
 
-export enum Gender {
-  man = 'male',
-  women = 'female'
-}
-
 const itemsTabs = [
   {
     id: 1,
@@ -37,6 +32,7 @@ const itemsTabs = [
 
 const CabinetPage: FC = (props) => {
   const user: User = useAppSelector(state => state.user)
+  const {image, firstName, lastName, username} = user
   const {isAuth} = useAuth()
   const navigator = useNavigate()
   useEffect(() => {
@@ -56,10 +52,10 @@ const CabinetPage: FC = (props) => {
       transition={{duration: 0.5}}
       style={{height: '100%'}}>
       <Layout style={{display: "flex", flexDirection: 'row'}}>
-        <Avatar size={250} src={user.image} shape={"square"} style={{border: '1px solid grey', minWidth: 250}}/>
+        <Avatar size={250} src={user.image} shape="square" style={{minWidth: 250}}/>
         <Layout style={{marginLeft: 20}}>
-          <Title style={{margin: 0}}>{user.firstName} {user.lastName}</Title>
-          <Title level={4} style={{margin: 0, color: 'grey', fontStyle: 'italic'}}>@{user.username}</Title>
+          <Title style={{margin: 0}}>{firstName} {lastName}</Title>
+          <Title level={4} style={{margin: 0, color: 'grey', fontStyle: 'italic'}}>@{username}</Title>
           <Layout style={{marginTop: 20}}>
             <Tabs
               animated

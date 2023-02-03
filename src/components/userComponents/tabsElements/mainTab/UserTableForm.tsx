@@ -43,7 +43,7 @@ const UserTableForm: FC = () => {
     const {city, ...ethValue} = value
     const data = {address: {city}, ...ethValue}
     const response = await fetch(`https://dummyjson.com/users/${id}`, {
-      method: 'PUT', /* or PATCH */
+      method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data)
     })

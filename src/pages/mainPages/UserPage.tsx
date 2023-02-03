@@ -1,6 +1,6 @@
 import React, {FC, useEffect, Suspense} from 'react'
 import {Layout, Spin} from "antd"
-import {Await, defer, useAsyncValue, useLoaderData} from "react-router-dom"
+import {Await, defer, LoaderFunction, useAsyncValue, useLoaderData} from "react-router-dom"
 import SingleUserData from "../../components/userComponents/SingleUserData"
 import {User} from "../../store/slices/userSlice"
 
@@ -26,7 +26,7 @@ const getUser = async (id: number) => {
   return result
 
 }
-export const userLoader = async ({params}: any) => {
+export const userLoader: LoaderFunction = async ({params}: any) => {
   let {id} = params
   id = +id
   return defer({user: getUser(id)})

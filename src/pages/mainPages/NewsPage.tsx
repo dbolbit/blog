@@ -4,6 +4,8 @@ import {Await, defer, useLoaderData} from "react-router-dom"
 import PostsList, {IPost} from "../../components/userComponents/tabsElements/postsTab/PostsList"
 import {TypePostsFetch} from "../../components/userComponents/tabsElements/postsTab/PostTab"
 import Filter from "../../components/postsComponents/Filter"
+import {instanceAPI} from "../../axios/instanceAPI"
+import AddPost from "../../components/postsComponents/AddPost"
 
 
 const NewsPage: FC = (props) => {
@@ -13,10 +15,12 @@ const NewsPage: FC = (props) => {
   const [filterTags, setFilterTags] = useState<string[]>([])
   useEffect(() => {
     (async function () {
-      const response = await fetch('https://dummyjson.com/posts?select=tags&limit=150')
+      const response = await fetch('https://dummyjson.com/posts?limit=150&select=tags')
       const result: TypePostsFetch = await response.json()
       setTags(tagsFunc(result.posts))
     })()
+
+    // instanceAPI.get('/posts').then(res => res.data)
   }, [])
 
   return (
@@ -26,6 +30,7 @@ const NewsPage: FC = (props) => {
           <div className="news_container">
             <section className="news_filter">
               <Filter tags={tags} setFilterTags={setFilterTags}/>
+              <AddPost/>
             </section>
             <PostsList tags={filterTags} type="news"/>
           </div>
@@ -37,6 +42,7 @@ const NewsPage: FC = (props) => {
 
 
 export default NewsPage
+
 
 export const getNews = async () => {
   const data = await fetch('https://dummyjson.com/posts')

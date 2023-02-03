@@ -4,6 +4,8 @@ import {TypePostsFetch} from "./PostTab"
 import {Layout} from "antd"
 import Post, {PostProps} from "../../../postsComponents/Post"
 import withUser from "../../../../hoc/withUser"
+import {useAppDispatch, useAppSelector} from "../../../../hooks/useCustomRTKSelectors"
+import {fetchPosts, addPostsToList} from "../../../../store/slices/postsSlice"
 
 export interface IPost {
   body: string
@@ -21,7 +23,9 @@ type PostListProps = {
 
 const PostsList: FC<PostListProps> = ({tags, type}) => {
   const {posts, total} = useAsyncValue() as TypePostsFetch
-  const [postsList, setPostsList] = useState<IPost[]>(posts)
+  // const [postsList, setPostsList] = useState<IPost[]>(posts)
+  const dispatch = useAppDispatch()
+  const postsList = useAppSelector(state => state.posts)
   const [isFetching, setIsFetching] = useState<boolean>(false)
   const handlerScroll = (e: Event) => {
     e.preventDefault()
@@ -31,6 +35,9 @@ const PostsList: FC<PostListProps> = ({tags, type}) => {
 
   }
   useEffect(() => {
+    dispatch(fetchPosts(posts))
+  }, [posts])
+  useEffect(() => {
     document.addEventListener('scroll', handlerScroll)
     return () => document.removeEventListener('scroll', handlerScroll)
   },)
@@ -39,11 +46,10 @@ const PostsList: FC<PostListProps> = ({tags, type}) => {
       if (isFetching) {
         const response = await fetch(`https://dummyjson.com/posts?limit=30&skip=${postsList.length}`)
         const result: TypePostsFetch = await response.json()
-        setPostsList(prev => [...prev, ...result.posts])
+        dispatch(addPostsToList(result.posts))
         setIsFetching(false)
       }
     })()
-
   }, [isFetching])
 
 

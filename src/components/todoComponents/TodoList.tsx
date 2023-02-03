@@ -5,7 +5,6 @@ import {ITodo} from "../../pages/mainPages/TodoPage"
 import {List} from "antd"
 import {MListTodoItem} from "./ListTodoItem"
 import {Reorder} from "framer-motion"
-import {dragTodos} from "../../store/slices/todosSlice"
 
 const TodoList: FC = () => {
   const todos = useAppSelector(state => state.todos)

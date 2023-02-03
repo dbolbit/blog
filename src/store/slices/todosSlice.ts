@@ -29,21 +29,8 @@ const todosSlice = createSlice({
           el.completed = !el.completed
         }
       })
-      return state
     },
-    dragTodos: (state: Todo[], action: PayloadAction<number[]>) => {
-      const result: Todo[] = []
-      const arr = action.payload
-      for (let i = 0; i < arr.length; i++) {
-        state.forEach((el, i) => {
-          if (arr[i] === el.id) {
-            result.push(el)
-          }
-        })
-      }
-      return [...result]
 
-    }
   },
   extraReducers: builder => {
     builder.addCase(fetchToStoreTodos.fulfilled, (state, action: PayloadAction<Todo[]>) => {
@@ -53,5 +40,5 @@ const todosSlice = createSlice({
 
 })
 
-export const {addTodo, removeTodo, toggleDone, dragTodos} = todosSlice.actions
+export const {addTodo, removeTodo, toggleDone} = todosSlice.actions
 export default todosSlice.reducer

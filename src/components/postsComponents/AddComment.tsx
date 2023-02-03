@@ -16,32 +16,33 @@ const AddComment: FC<IAddComment> = ({type, postId, addComment}) => {
   const [userComment, setUserComment] = useState<string>('')
   const currentUserId = useAppSelector(state => state.user.id)
   const handlerAddComment = async (value: string, event: React.KeyboardEvent<HTMLInputElement> | React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLElement, MouseEvent> | undefined) => {
-    try {
-      setIsFetching(true)
-      const response = await fetch('https://dummyjson.com/comments/add', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          body: value,
-          postId: postId,
-          userId: currentUserId,
+    if (value) {
+      try {
+        setIsFetching(true)
+        const response = await fetch('https://dummyjson.com/comments/add', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            body: value,
+            postId: postId,
+            userId: currentUserId,
+          })
         })
-      })
-      const result = await response.json()
-      addComment(result)
-      setIsFetching(false)
-      setUserComment('')
-    } catch (e) {
-      console.log(e)
-      setIsFetching(false)
-      setUserComment('')
+        const result = await response.json()
+        addComment(result)
+        setIsFetching(false)
+        setUserComment('')
+      } catch (e) {
+        console.log(e)
+        setIsFetching(false)
+        setUserComment('')
+      }
     }
   }
   return (
     <>
       {type === 'news' && (
-        <div>
-
+        <div style={{marginTop: 20}}>
           <Search bordered placeholder="Ваш коментарий"
                   enterButton="Опубликовать"
                   onSearch={handlerAddComment}

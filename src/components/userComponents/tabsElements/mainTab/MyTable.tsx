@@ -6,10 +6,6 @@ interface MyTableProps {
   render: (data: TableTypeData[]) => ReactElement<any, string | React.JSXElementConstructor<any>> | null
 }
 
-const MyTable: FC<MyTableProps> = ({data, render}) => {
-
-  return render(data)
-}
-
+const MyTable: FC<MyTableProps> = ({data, render}) => render(data)
 
 export default MyTable

@@ -210,6 +210,28 @@ body {
   text-align: center;
 }
 
+.user_main_info {
+  display: flex;
+  flex-direction: row;
+}
+.user_main_info_username {
+  color: grey;
+  font-style: italic;
+  font-size: 20px;
+  font-weight: 500;
+}
+.user_main_info table {
+  margin: 20px 0;
+  padding: 0;
+  width: 400px;
+}
+.user_main_info table td {
+  padding: 10px 0;
+  text-align: center;
+  height: 50px;
+  border-bottom: 1px solid grey;
+}
+
 .posts_list_container {
   display: flex;
   align-items: flex-start;
@@ -288,6 +310,8 @@ body {
 }
 
 .news_filter {
+  display: flex;
+  gap: 20px;
   width: 100%;
   height: fit-content;
   margin-bottom: 15px;
@@ -304,6 +328,11 @@ body {
   left: 0;
   z-index: 100;
   transform: translate(-30%, -30%);
+}
+
+.new_post_container {
+  display: flex;
+  flex-direction: column;
 }
 
 /*# sourceMappingURL=index.css.map */

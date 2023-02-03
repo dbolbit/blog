@@ -13,6 +13,7 @@
   height: auto;
   transition: height 1s linear;
 
+
   &_comment_btn {
     width: 100px;
     cursor: pointer;
@@ -90,6 +91,8 @@
 .news {
 
   &_filter {
+    display: flex;
+    gap: 20px;
     //border: 2px solid green;
     width: 100%;
     height: fit-content;
@@ -109,4 +112,11 @@
     z-index: 100;
     transform: translate(-30%, -30%);
   }
+}
+
+.new_post_container {
+  display: flex;
+  flex-direction: column;
+  //border: 2px solid red;
+
 }
