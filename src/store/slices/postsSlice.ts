@@ -9,11 +9,10 @@ const postsSlice = createSlice({
   reducers: {
     fetchPosts: (state, action: PayloadAction<IPost[]>) => [...action.payload],
     addPostsToList: (state, action: PayloadAction<IPost[]>) => [...state, ...action.payload],
-    addPost: (state, action: PayloadAction<IPost>) => {
-      return state
-    }
+    addPost: (state, action: PayloadAction<IPost>) => [action.payload, ...state]
+
   }
 })
 
-export const {fetchPosts, addPostsToList} = postsSlice.actions
+export const {fetchPosts, addPostsToList, addPost} = postsSlice.actions
 export default postsSlice.reducer

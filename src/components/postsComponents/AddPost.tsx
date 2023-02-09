@@ -1,31 +1,54 @@
 import {FC, useState} from 'react'
-import {Button, Modal, Input, Space, Select} from "antd"
-import type {SelectProps} from 'antd'
+import {Button, Modal, Input, Space, message} from "antd"
+import {useAppDispatch, useAppSelector} from "../../hooks/useCustomRTKSelectors"
+import {addPost} from "../../store/slices/postsSlice"
 
 
 const {TextArea} = Input
 
-const options: SelectProps['options'] = []
 
 const AddPost: FC = (props) => {
   const [open, setOpen] = useState(false)
   const [confirmLoading, setConfirmLoading] = useState(false)
-  const [titleInput, setTitleInput] = useState<string>('')
-  const [tagsInput, setTagsInput] = useState<string>('')
-  const [postInput, setPostInput] = useState<string>('')
-
+  const [title, setTitle] = useState<string>('')
+  const [tags, setTags] = useState<string>('')
+  const [body, setBody] = useState<string>('')
+  const id = useAppSelector(state => state.user.id)
+  const dispatch = useAppDispatch()
   const toggleModal = () => setOpen(!open)
+  const [messageApi, contextHolder] = message.useMessage()
 
   const handleOk = async () => {
     setConfirmLoading(true)
-    setConfirmLoading(false)
-  }
+    try {
+      const response = await fetch('https://dummyjson.com/posts/add', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({title, body, userId: id, tags: tags.split(' '),})
+      })
+      const result = await response.json()
+      dispatch(addPost(result))
+      setConfirmLoading(false)
+      setOpen(false)
+      messageApi.info('Пост успешно опубликован!')
+    } catch (e) {
+      console.log(e)
+      setConfirmLoading(false)
+    }
 
+  }
+  const handlerClose = () => {
+    setTitle('')
+    setTags('')
+    setBody('')
+  }
 
   return (
     <>
+      {contextHolder}
       <Button type="primary" onClick={toggleModal}>Добавить пост</Button>
       <Modal
+        afterClose={handlerClose}
         width="65%"
         destroyOnClose
         title="Новый пост"
@@ -36,12 +59,12 @@ const AddPost: FC = (props) => {
       >
         <Space className="new_post_container" direction={"vertical"}>
           <Input
-            value={titleInput}
-            onChange={(e) => setTitleInput(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             placeholder="Тема" required/>
           <Input
-            onChange={(e) => setTagsInput(e.target.value)}
-            value={tagsInput}
+            onChange={(e) => setTags(e.target.value)}
+            value={tags}
 
             placeholder="#city #love..."/>
           <TextArea
@@ -49,8 +72,8 @@ const AddPost: FC = (props) => {
             rows={10}
             placeholder="Ваш текст..."
             required
-            onChange={(e) => setPostInput(e.target.value)}
-            value={postInput}
+            onChange={(e) => setBody(e.target.value)}
+            value={body}
 
           />
         </Space>

@@ -6,6 +6,7 @@ import Comment, {getUserImage} from "./Comment"
 import {Input} from 'antd'
 import {useAppSelector} from "../../hooks/useCustomRTKSelectors"
 import AddComment from "./AddComment"
+import Like from "./Like"
 
 const {Search} = Input
 
@@ -38,19 +39,14 @@ interface CommentFetchType extends FetchType {
 const Post: FC<PostProps> = ({post, type}) => {
 
   const pRef = useRef<HTMLParagraphElement | null>(null)
-  const {title, body, reactions, id, tags, userId} = post
+  const {title, body, reactions = 0, id, tags, userId} = post
   const [comments, setComments] = useState<CommentsType[]>([])
-  const [likes, setLikes] = useState<number>(reactions)
-  const [isLiked, setIsLiked] = useState<boolean>(false)
   const [isShow, setIsShow] = useState<boolean>(false)
   const [isHidden, setIsHidden] = useState<boolean>(false)
   const [isCommentShow, setIsCommentShow] = useState<boolean>(false)
   const [userImg, setUserImg] = useState<string>('')
 
-  const handlerLikeClick = () => {
-    setLikes(prev => isLiked ? prev - 1 : prev + 1)
-    setIsLiked(!isLiked)
-  }
+  //
   const addComment = (comment: CommentsType) => setComments(prev => [...prev, comment])
 
   useEffect(() => {
@@ -86,10 +82,8 @@ const Post: FC<PostProps> = ({post, type}) => {
     <Card className="post" title={postTitle}
           extra={isHidden && <a onClick={() => setIsShow(!isShow)}>{!isShow ? 'more..' : 'less..'}</a>}>
       <p style={{display: isShow ? '' : '-webkit-box'}} className="post_info" ref={pRef}>{body}</p>
-      <span
-        className={`post_likes ${isLiked && 'post_likes__active'}`}>{likes} <HeartFilled
-        onClick={handlerLikeClick}/></span>
-      {comments.length ? (
+      <Like reactions={reactions}/>
+      {comments?.length ? (
         <div className="comment_container">
           {
             isCommentShow &&
@@ -98,7 +92,7 @@ const Post: FC<PostProps> = ({post, type}) => {
                 {comments.map(el => <Comment key={el.body + Math.random()} data={el}/>)}
                 <AddComment type={'news'} postId={id} addComment={addComment}/>
               </div>
-            </> || <span>({comments.length} коментариев)</span>
+            </> || <span>({comments.length} комментария)</span>
           }
           <CaretDownFilled className="post_comment_btn" onClick={() => setIsCommentShow(!isCommentShow)}/>
 
@@ -111,5 +105,10 @@ const Post: FC<PostProps> = ({post, type}) => {
 
 
 export default Post
+
 // export const MPost = motion(Post)
 
+// function commentsNameCount(num: number) {
+//
+//   return num + 'коментариев'
+// }

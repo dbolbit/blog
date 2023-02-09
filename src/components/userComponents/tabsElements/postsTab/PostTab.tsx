@@ -2,6 +2,7 @@ import {FC, Suspense} from 'react'
 import {Await, defer, LoaderFunction, useLoaderData, json} from "react-router-dom"
 import PostsList, {IPost} from "./PostsList"
 import {FetchType} from "../../../postsComponents/Post"
+import {Spin} from "antd"
 
 export interface TypePostsFetch extends FetchType {
   posts: IPost[]
@@ -11,11 +12,13 @@ export interface TypePostsFetch extends FetchType {
 const PostTab: FC = (props) => {
   const {posts} = useLoaderData() as TypePostsFetch
   return (
-    <Suspense fallback={<h1>Loading...</h1>}>
-      <Await resolve={posts}>
-        <PostsList/>
-      </Await>
-    </Suspense>
+    <main style={{minHeight: 300}}>
+      <Suspense fallback={<Spin className="spin-center"/>}>
+        <Await resolve={posts}>
+          <PostsList/>
+        </Await>
+      </Suspense>
+    </main>
   )
 }
 

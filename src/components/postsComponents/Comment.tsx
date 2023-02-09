@@ -8,7 +8,7 @@ interface CommentProp {
 }
 
 const Comment: FC<CommentProp> = ({data}) => {
-  const {id, body, postId, user} = data
+  const {body, user} = data
   const [img, setImg] = useState<string>('')
   useEffect(() => {
     (async function () {
