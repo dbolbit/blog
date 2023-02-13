@@ -8,6 +8,7 @@ import {useNavigate} from "react-router"
 import useAuth from "../../hooks/useAuth"
 import {motion} from "framer-motion"
 import {pagesAnimationVariants} from "../animation/PagesAnimation"
+import LogInUsersData from "../../components/userComponents/LogInUsersData"
 
 const {Item} = Form
 
@@ -133,8 +134,9 @@ const LoginPage: React.FC = (props) => {
                 register now!</a>
             </Item>
           </Form>
+          <LogInUsersData/>
         </div>
-        0lelplR
+        {/*0lelplR*/}
       </div>
 
     </motion.div>
