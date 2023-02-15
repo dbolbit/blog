@@ -65,6 +65,7 @@
 }
 
 .comment_container {
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;

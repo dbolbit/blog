@@ -2,11 +2,13 @@ import React, {FC, useState, useRef, useEffect, forwardRef, Ref, ReactElement, C
 import {IPost} from "../userComponents/tabsElements/postsTab/PostsList"
 import {Avatar, Card, Space} from "antd"
 import {CaretDownFilled, HeartFilled, CaretUpFilled} from '@ant-design/icons'
-import Comment, {getUserImage} from "./Comment"
+import Comment, {getUserImage} from "./comment/Comment"
 import {Input} from 'antd'
 import {useAppSelector} from "../../hooks/useCustomRTKSelectors"
-import AddComment from "./AddComment"
+import AddComment from "./comment/AddComment"
 import Like from "./Like"
+import CommentList from "./comment/CommentList"
+import {AnimatePresence, motion} from 'framer-motion'
 
 const {Search} = Input
 
@@ -32,7 +34,7 @@ export type FetchType = {
   skip: number
 }
 
-interface CommentFetchType extends FetchType {
+export interface CommentFetchType extends FetchType {
   comments: CommentsType[]
 }
 
@@ -40,14 +42,12 @@ const Post: FC<PostProps> = ({post, type}) => {
 
   const pRef = useRef<HTMLParagraphElement | null>(null)
   const {title, body, reactions = 0, id, tags, userId} = post
-  const [comments, setComments] = useState<CommentsType[]>([])
+
   const [isShow, setIsShow] = useState<boolean>(false)
   const [isHidden, setIsHidden] = useState<boolean>(false)
   const [isCommentShow, setIsCommentShow] = useState<boolean>(false)
   const [userImg, setUserImg] = useState<string>('')
 
-  //
-  const addComment = (comment: CommentsType) => setComments(prev => [...prev, comment])
 
   useEffect(() => {
     const e: HTMLParagraphElement | null = pRef.current
@@ -59,9 +59,6 @@ const Post: FC<PostProps> = ({post, type}) => {
   useEffect(() => {
     (async function () {
       try {
-        const data = await fetch(`https://dummyjson.com/comments/post/${id}`)
-        const result: CommentFetchType = await data.json()
-        setComments(result.comments)
         const {image} = await getUserImage(userId)
         setUserImg(image)
       } catch (e) {
@@ -79,27 +76,21 @@ const Post: FC<PostProps> = ({post, type}) => {
     </div>
   )
   return (
-    <Card className="post" title={postTitle}
-          extra={isHidden && <a onClick={() => setIsShow(!isShow)}>{!isShow ? 'more..' : 'less..'}</a>}>
-      <p style={{display: isShow ? '' : '-webkit-box'}} className="post_info" ref={pRef}>{body}</p>
-      <Like reactions={reactions}/>
-      {comments?.length ? (
-        <div className="comment_container">
-          {
-            isCommentShow &&
-            <>
-              <div>
-                {comments.map(el => <Comment key={el.body + Math.random()} data={el}/>)}
-                <AddComment type={'news'} postId={id} addComment={addComment}/>
-              </div>
-            </> || <span>({comments.length} комментария)</span>
-          }
-          <CaretDownFilled className="post_comment_btn" onClick={() => setIsCommentShow(!isCommentShow)}/>
+    <AnimatePresence initial={false} mode={"wait"}>
+      <motion.div>
+        <Card className="post" title={postTitle}
+              extra={isHidden && <a onClick={() => setIsShow(!isShow)}>{!isShow ? 'more..' : 'less..'}</a>}>
+          <p style={{display: isShow ? '' : '-webkit-box'}} className="post_info" ref={pRef}>{body}</p>
+          <Like reactions={reactions}/>
+          <div
+            className="comment_container">
+            <CommentList id={id} isShow={isCommentShow}/>
+            <CaretDownFilled className="post_comment_btn" onClick={() => setIsCommentShow(!isCommentShow)}/>
+          </div>
 
-        </div>
-      ) : null}
-
-    </Card>
+        </Card>
+      </motion.div>
+    </AnimatePresence>
   )
 }
 
@@ -108,7 +99,3 @@ export default Post
 
 // export const MPost = motion(Post)
 
-// function commentsNameCount(num: number) {
-//
-//   return num + 'коментариев'
-// }

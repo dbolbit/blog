@@ -1,7 +1,7 @@
 // import React from 'react'
 import RootLayout from "./pages/RootLayout"
 import {createRoutesFromElements, RouterProvider, Route} from "react-router"
-import {createBrowserRouter} from 'react-router-dom'
+import {createBrowserRouter, createHashRouter} from 'react-router-dom'
 import {LoginPage, CabinetPage, TodoPage, UsersPage, UserPage, NewsPage} from "./pages/mainPages"
 import {Provider} from "react-redux"
 import {store} from "./store/store"
@@ -11,9 +11,10 @@ import {PostTab} from "./components/userComponents/tabsElements"
 import {postsLoader} from "./components/userComponents/tabsElements/postsTab/PostTab"
 import {FC} from "react"
 import {newsLoader} from "./pages/mainPages/NewsPage"
+import ErrorPage from "./pages/mainPages/ErrorPage"
 
-const routes = createBrowserRouter(createRoutesFromElements(
-  <Route path="/" element={<RootLayout/>}>
+const routes = createBrowserRouter(createRoutesFromElements( // createBrowserRouter       createHashRouter
+  <Route path="/" element={<RootLayout/>} errorElement={<ErrorPage/>}>
     <Route path="/login" element={<LoginPage/>}/>
     <Route path="/news" element={<NewsPage/>} loader={newsLoader}/>
     <Route path="/cabinet" element={<CabinetPage/>}>

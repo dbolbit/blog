@@ -93,3 +93,29 @@
   top: 50%;
   right: 20px;
 }
+
+.error_container {
+  width: 100%;
+  height: 100vh;
+  background: url("../assets/404.png") no-repeat center center;
+  padding-top: 50px;
+  h1 {
+    font-size: 3em;
+  }
+
+  button {
+    display: block;
+    margin: 0 auto;
+    background-color: #1677ff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+
+    &:hover {
+      background-color: rgb(65, 145, 253);
+      cursor: pointer;
+    }
+  }
+}

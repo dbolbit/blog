@@ -1,10 +1,15 @@
-import React, {FC, memo, useEffect, useState} from 'react'
-import {CommentsType} from "./Post"
+import React, {FC, memo, useEffect, useState, useMemo, useCallback} from 'react'
+import {CommentsType} from "../Post"
 import {Avatar} from "antd"
 import {Link} from "react-router-dom"
 
 interface CommentProp {
   data: CommentsType
+}
+
+type UserImageDAta = {
+  id: number,
+  image: string
 }
 
 const Comment: FC<CommentProp> = ({data}) => {
@@ -29,11 +34,11 @@ const Comment: FC<CommentProp> = ({data}) => {
 }
 
 
-export default Comment
+export default memo(Comment)
 
 export async function getUserImage(id: number | undefined) {
   const data = await fetch(`https://dummyjson.com/users/${id}?select=image`)
-  const result: { id: number, image: string } = await data.json()
+  const result: UserImageDAta = await data.json()
   return result
 
 }

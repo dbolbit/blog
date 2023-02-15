@@ -1,7 +1,7 @@
 import React, {FC, useState} from 'react'
 import {Input} from 'antd'
-import {useAppSelector} from "../../hooks/useCustomRTKSelectors"
-import {CommentsType} from "./Post"
+import {useAppSelector} from "../../../hooks/useCustomRTKSelectors"
+import {CommentsType} from "../Post"
 
 const {Search} = Input
 
