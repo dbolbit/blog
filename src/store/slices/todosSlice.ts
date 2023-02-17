@@ -30,7 +30,7 @@ const todosSlice = createSlice({
         }
       })
     },
-
+    updateTodos: (state: Todo[], action: PayloadAction<Todo[]>) => [...action.payload]
   },
   extraReducers: builder => {
     builder.addCase(fetchToStoreTodos.fulfilled, (state, action: PayloadAction<Todo[]>) => {
@@ -40,5 +40,5 @@ const todosSlice = createSlice({
 
 })
 
-export const {addTodo, removeTodo, toggleDone} = todosSlice.actions
+export const {addTodo, removeTodo, toggleDone, updateTodos} = todosSlice.actions
 export default todosSlice.reducer

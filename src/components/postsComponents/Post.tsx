@@ -80,7 +80,10 @@ const Post: FC<PostProps> = ({post, type}) => {
       <motion.div>
         <Card className="post" title={postTitle}
               extra={isHidden && <a onClick={() => setIsShow(!isShow)}>{!isShow ? 'more..' : 'less..'}</a>}>
-          <p style={{display: isShow ? '' : '-webkit-box'}} className="post_info" ref={pRef}>{body}</p>
+          <motion.p
+            style={{display: isShow ? '' : '-webkit-box'}}
+            className="post_info"
+            ref={pRef}>{body}</motion.p>
           <Like reactions={reactions}/>
           <div
             className="comment_container">

@@ -16,17 +16,20 @@ const itemsTabs = [
   {
     id: 1,
     label: `Основное`,
-    children: <MainTabs/>,
+    key: 'info'
+    // children: <Outlet/>,
   },
   {
     id: 2,
     label: `Карьера`,
-    children: <Title>Карьера</Title>,
+    key: 'career'
+    // children: <Outlet/>
   },
   {
     id: 3,
-    label: <Link to="/cabinet/posts">Мои посты</Link>,
-    children: <Outlet/>
+    label: 'Мои посты',
+    key: 'posts'
+    // children: <Outlet/>
   },
 ]
 
@@ -35,12 +38,10 @@ const CabinetPage: FC = (props) => {
   const {image, firstName, lastName, username} = user
   const {isAuth} = useAuth()
   const navigator = useNavigate()
-  useEffect(() => {
-    if (!isAuth) {
-      navigator('/login')
-    }
-    // console.log(user)
-  }, [isAuth])
+  useEffect(() => !isAuth ? navigator('/login') : navigator('/cabinet/info'), [isAuth])
+  const handlerTabClick = (key: string) => {
+    navigator(`/cabinet/${key}`)
+  }
 
 
   return (
@@ -58,14 +59,16 @@ const CabinetPage: FC = (props) => {
           <Title level={4} style={{margin: 0, color: 'grey', fontStyle: 'italic'}}>@{username}</Title>
           <Layout style={{marginTop: 20}}>
             <Tabs
+              onTabClick={handlerTabClick}
               animated
               defaultActiveKey="1"
               type="card"
               size="middle"
               items={itemsTabs.map((tab) => ({
                   label: tab.label,
-                  key: String(tab.id),
-                  children: tab.children
+                  key: tab.key,
+                  children: <Outlet/>
+                  // children: tab.children
                 })
               )}
             />

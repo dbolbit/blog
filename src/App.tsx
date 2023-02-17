@@ -7,7 +7,7 @@ import {Provider} from "react-redux"
 import {store} from "./store/store"
 import {usersLoader} from "./pages/mainPages/UsersPage"
 import {userLoader} from "./pages/mainPages/UserPage"
-import {PostTab} from "./components/userComponents/tabsElements"
+import {MainTabs, PostTab, CareerTab} from "./components/userComponents/tabsElements"
 import {postsLoader} from "./components/userComponents/tabsElements/postsTab/PostTab"
 import {FC} from "react"
 import {newsLoader} from "./pages/mainPages/NewsPage"
@@ -18,6 +18,8 @@ const routes = createBrowserRouter(createRoutesFromElements( // createBrowserRou
     <Route path="/login" element={<LoginPage/>}/>
     <Route path="/news" element={<NewsPage/>} loader={newsLoader}/>
     <Route path="/cabinet" element={<CabinetPage/>}>
+      <Route path="/cabinet/info" element={<MainTabs/>} index/>
+      <Route path="/cabinet/career" element={<CareerTab/>}/>
       <Route path="/cabinet/posts" element={<PostTab/>} loader={postsLoader}/>
     </Route>
     <Route path="/todos" element={<TodoPage/>}/>

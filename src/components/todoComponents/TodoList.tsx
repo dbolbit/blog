@@ -1,36 +1,55 @@
 import React, {FC, Suspense, useEffect, useState} from 'react'
-import {AnimatePresence, motion} from "framer-motion"
+import {AnimatePresence, motion, Reorder} from "framer-motion"
 import {useAppDispatch, useAppSelector} from "../../hooks/useCustomRTKSelectors"
-import {ITodo} from "../../pages/mainPages/TodoPage"
-import {List} from "antd"
-import {MListTodoItem} from "./ListTodoItem"
-import {Reorder} from "framer-motion"
+import {FileOutlined} from '@ant-design/icons'
+import {Todo} from "../../pages/mainPages/TodoPage"
+import {updateTodos} from "../../store/slices/todosSlice"
+import TodoComponent from "./TodoComponent"
 
+const {Group} = Reorder
 const TodoList: FC = () => {
   const todos = useAppSelector(state => state.todos)
   const dispatch = useAppDispatch()
+  const keys: string[] = todos.map(el => String(el.id))
+
+  const handlerReorder = (value: any[]) => dispatch(updateTodos(sortList(value, todos)))
+
+
   return (
+    <AnimatePresence initial={false} mode={"sync"}>
 
-    <div className="todo_wrapper">
-      <AnimatePresence>
-        <List
-          size="large"
-          bordered
-          dataSource={todos}
-          renderItem={(item: ITodo) => (
-            <MListTodoItem
-              key={item.todo}
-              animate={{opacity: 1}}
-              exit={{opacity: 0}}
-              transition={{duration: 1}}
-              item={item}/>
-          )
-          }/>
-      </AnimatePresence>
-    </div>
+      <motion.div className="todo_wrapper"
+                  layout={"size"}
+                  transition={{duration: 0.3}}>
+        <motion.ul
+          layout
+          className={`${!todos.length && 'todo_list__empty'}`}>
+          {
+            todos.length ? (
+              <>
+                <Group axis="y"
+                       onReorder={handlerReorder}
+                       values={keys}>
+                  {todos.map(todo => <TodoComponent key={todo.id} data={todo}/>)}
+                </Group>
+              </>
+            ) : (
+              <>
+                <FileOutlined/>
+                <span>Список пуст</span>
+              </>
+            )
+          }
 
+        </motion.ul>
+      </motion.div>
+    </AnimatePresence>
   )
 }
 
 export default TodoList
 
+
+function sortList(arr: string[], list: Todo[]) {
+  return list.map((el, i, array) => (arr[i] === String(el.id)) ? el : array.find(elem => String(elem.id) === arr[i])) as Todo[]
+}

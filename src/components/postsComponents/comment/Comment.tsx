@@ -22,6 +22,7 @@ const Comment: FC<CommentProp> = ({data}) => {
     })()
   }, [data])
 
+
   return (
     <section className="comment">
       <div>

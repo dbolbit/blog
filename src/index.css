@@ -134,34 +134,40 @@ body {
   width: 70%;
   margin: 50px auto;
   min-width: 515px;
-}
-.todo_wrapper h1 {
-  font-size: 1.5em;
-  text-align: center;
+  border: 1px solid #bebebe;
+  border-radius: 0.5rem;
 }
 .todo_wrapper ul {
   width: 100%;
   margin: 0;
+  overflow: hidden;
 }
 
 .todo {
   height: 50px;
-  border: 1px solid #bebebe;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  font-size: 1.3em;
+  border-bottom: 1px solid #bebebe;
+  cursor: grab;
   padding: 0 15px;
   display: flex;
   align-items: center;
   position: relative;
 }
-.todo_close {
+.todo_delete {
   cursor: pointer;
   position: absolute;
   right: 50px;
 }
-.todo_close:hover {
+.todo_delete:hover {
   color: red;
+}
+.todo:first-child {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+.todo:last-child {
+  border-bottom: none;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }
 
 .completed {
@@ -181,28 +187,28 @@ body {
 }
 
 .todo_checkbox_label {
+  font-size: 16px;
+  line-height: 20px;
   cursor: pointer;
   position: absolute;
   top: 50%;
-  left: 70px;
+  left: 50px;
   transform: translateY(-50%);
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 70%;
+  padding: 0 10px;
+  max-width: 80%;
+  width: fit-content;
 }
 
-.todo_item {
-  position: relative;
-}
-.todo_item span {
-  margin-right: 30px;
-}
-.todo_item svg {
-  cursor: pointer;
-  width: auto;
-}
-.todo_item svg:hover {
-  color: orange;
+.todo_list__empty {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: grey;
+  flex-direction: column;
+  font-size: 2em;
 }
 
 .user_page_container {

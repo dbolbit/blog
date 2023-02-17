@@ -1,7 +1,6 @@
 import React, {FC, forwardRef, Ref} from 'react'
 import {Checkbox, List} from "antd"
 import {ITodo} from "../../pages/mainPages/TodoPage"
-import {CheckboxChangeEvent} from "antd/es/checkbox"
 import {DeleteOutlined} from '@ant-design/icons'
 import {motion, Reorder} from "framer-motion"
 import {removeTodo, toggleDone} from "../../store/slices/todosSlice"
@@ -20,8 +19,6 @@ const ListTodoItem: FC<ListTodoItemProps> = forwardRef(({item}, ref: Ref<any>) =
   const dispatch = useAppDispatch()
 
   return (
-    // <Reorder.Item value={item.id} key={item.id}>
-
     <Item className="todo_item" ref={ref}>
       <Checkbox
         checked={todo.completed}
@@ -39,7 +36,7 @@ const ListTodoItem: FC<ListTodoItemProps> = forwardRef(({item}, ref: Ref<any>) =
         onClick={() => dispatch(removeTodo(item.id))}
       />
     </Item>
-    // </Reorder.Item>
+
   )
 })
 
