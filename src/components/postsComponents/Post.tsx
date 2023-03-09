@@ -59,8 +59,9 @@ const Post: FC<PostProps> = ({post, type}) => {
   useEffect(() => {
     (async function () {
       try {
-        const {image} = await getUserImage(userId)
-        setUserImg(image)
+        const userData = await getUserImage(userId)
+        console.log(userData)
+        setUserImg(userData.image)
       } catch (e) {
         console.log(e)
       }

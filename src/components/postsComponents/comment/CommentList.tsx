@@ -1,8 +1,9 @@
-import React, {FC, useEffect, useMemo, useState} from 'react'
+import React, {FC, useEffect, useMemo, useState, Suspense} from 'react'
 import Comment from "./Comment"
 import AddComment from "./AddComment"
 import {CommentFetchType, CommentsType} from "../Post"
 import {AnimatePresence, motion} from 'framer-motion'
+import {Await} from "react-router-dom"
 
 interface CommentListProps {
   id: number,
@@ -27,6 +28,7 @@ const CommentList: FC<CommentListProps> = ({id, isShow}) => {
   const commentCount = useMemo(() => commentsNameCount(comments.length), [comments.length])
   //
   useEffect(() => {
+
     (async function () {
       const data = await fetch(`https://dummyjson.com/comments/post/${id}`)
       const result: CommentFetchType = await data.json()
@@ -46,10 +48,12 @@ const CommentList: FC<CommentListProps> = ({id, isShow}) => {
             initial="start"
             animate="anim"
             exit="exit"
-            transition={{
-              duration: 0.3,
-            }}>
-            {comments.map(el => <Comment key={el.body + Math.random()} data={el}/>)}
+            transition={{duration: 0.3,}}>
+            <Suspense>
+              <Await resolve={comments}>
+                {comments.map(el => <Comment key={el.body + Math.random()} data={el}/>)}
+              </Await>
+            </Suspense>
             <AddComment type={'news'} postId={id} addComment={addComment}/>
           </motion.div>
           // || <span>({commentCount})</span>

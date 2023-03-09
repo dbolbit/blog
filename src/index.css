@@ -130,6 +130,10 @@ body {
   cursor: pointer;
 }
 
+.footer span {
+  color: white;
+}
+
 .todo_wrapper {
   width: 70%;
   margin: 50px auto;
@@ -198,6 +202,7 @@ body {
   overflow: hidden;
   padding: 0 10px;
   max-width: 80%;
+  width: -moz-fit-content;
   width: fit-content;
 }
 
@@ -378,6 +383,7 @@ body {
   display: flex;
   gap: 20px;
   width: 100%;
+  height: -moz-fit-content;
   height: fit-content;
   margin-bottom: 15px;
 }
@@ -398,6 +404,4 @@ body {
 .new_post_container {
   display: flex;
   flex-direction: column;
-}
-
-/*# sourceMappingURL=index.css.map */
+}/*# sourceMappingURL=index.css.map */

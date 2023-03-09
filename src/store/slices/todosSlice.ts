@@ -30,7 +30,10 @@ const todosSlice = createSlice({
         }
       })
     },
-    updateTodos: (state: Todo[], action: PayloadAction<Todo[]>) => [...action.payload]
+    updateTodos: (state: Todo[], action: PayloadAction<string[]>) => {
+      const arr = action.payload
+      state.sort((a, b) => arr.indexOf(String(a.id)) - arr.indexOf(String(b.id)))
+    }
   },
   extraReducers: builder => {
     builder.addCase(fetchToStoreTodos.fulfilled, (state, action: PayloadAction<Todo[]>) => {

@@ -16,10 +16,11 @@ const Comment: FC<CommentProp> = ({data}) => {
   const {body, user} = data
   const [img, setImg] = useState<string>('')
   useEffect(() => {
-    (async function () {
-      const result = await getUserImage(user.id)
-      setImg(result.image)
-    })()
+    const fetchImg = async (id: number) => {
+      const json = await getUserImage(id)
+      setImg(json.image)
+    }
+    fetchImg(user.id)
   }, [data])
 
 

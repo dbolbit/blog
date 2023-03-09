@@ -9,6 +9,7 @@ import {motion} from 'framer-motion'
 import {pagesAnimationVariants} from "../animation/PagesAnimation"
 import {MainTabs, PostTab} from "../../components/userComponents/tabsElements"
 import {Link, Outlet} from "react-router-dom"
+import useScreenSize from "../../hooks/useScreenSize"
 
 const {Title} = Typography
 
@@ -38,12 +39,13 @@ const CabinetPage: FC = (props) => {
   const {image, firstName, lastName, username} = user
   const {isAuth} = useAuth()
   const navigator = useNavigate()
+
+
   useEffect(() => !isAuth ? navigator('/login') : navigator('/cabinet/info'), [isAuth])
   const handlerTabClick = (key: string) => {
     navigator(`/cabinet/${key}`)
   }
-
-
+  
   return (
     <motion.div
       variants={pagesAnimationVariants}
@@ -68,7 +70,6 @@ const CabinetPage: FC = (props) => {
                   label: tab.label,
                   key: tab.key,
                   children: <Outlet/>
-                  // children: tab.children
                 })
               )}
             />

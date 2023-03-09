@@ -1,3 +1,109 @@
+.cabinet {
+  box-shadow: 0 0 7px black;
+  background: #bebebe;
+  height: 500px;
+}
 
+.user {
+  display: flex;
+}
+.user__info {
+  width: 100%;
+  margin-left: 50px;
+  display: flex;
+  flex-direction: column;
+}
+.user__info h1 {
+  margin: 0;
+  font-size: 2.5em;
+}
+.user__info h3 {
+  margin: 0;
+  font-size: 1.5em;
+  color: grey;
+}
 
-/*# sourceMappingURL=pages.css.map */
+.logInOut {
+  color: grey;
+  float: right;
+  font-size: 16px;
+  cursor: pointer;
+}
+.logInOut:hover {
+  color: white;
+}
+
+.spin-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.login_user_data {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
+  position: relative;
+}
+.login_user_data_arrow {
+  cursor: pointer;
+  position: absolute;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  transform: translateY(-50%);
+}
+.login_user_data_arrow:hover {
+  background-color: lightgray;
+}
+
+.arrow_prev {
+  top: 50%;
+  left: 20px;
+}
+
+.arrow_next {
+  top: 50%;
+  right: 20px;
+}
+
+.error_container {
+  width: 100%;
+  height: 100vh;
+  background: url("../assets/404.png") no-repeat center center;
+  padding-top: 50px;
+}
+.error_container h1 {
+  font-size: 3em;
+}
+.error_container button {
+  display: block;
+  margin: 0 auto;
+  background-color: #1677ff;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+}
+.error_container button:hover {
+  background-color: rgb(65, 145, 253);
+  cursor: pointer;
+}
+
+.footer span {
+  color: white;
+}
+
+.search_user {
+  z-index: 1;
+  width: 200px;
+  float: right;
+}/*# sourceMappingURL=pages.css.map */

@@ -1,3 +1,84 @@
+.user_page_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+}
+@media (max-width: 1200px) {
+  .user_page_container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .user_page_container {
+    grid-template-columns: 1fr;
+  }
+}
 
+.tab_container {
+  min-height: 250px;
+  height: auto;
+  width: auto;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  gap: 25px;
+}
+.tab_container .buttons_wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: start;
+  flex-direction: row;
+  gap: 10px;
+}
+.tab_container table {
+  margin: 0;
+  padding: 0;
+  width: 400px;
+}
+.tab_container table input {
+  border: none;
+  outline: none;
+}
+.tab_container td {
+  padding: 10px 0;
+  text-align: center;
+  height: 50px;
+  border-bottom: 1px solid grey;
+}
+.tab_container td:first-child {
+  color: grey;
+  font-style: italic;
+  width: 30%;
+}
+.tab_container td:nth-child(2) {
+  width: 70%;
+}
+.tab_container td:nth-child(2) input {
+  width: 70%;
+  border: 1px solid grey;
+  border-radius: 5px;
+  text-align: center;
+}
 
-/*# sourceMappingURL=users.css.map */
+.user_main_info {
+  display: flex;
+  flex-direction: row;
+}
+.user_main_info_username {
+  color: grey;
+  font-style: italic;
+  font-size: 20px;
+  font-weight: 500;
+}
+.user_main_info table {
+  margin: 20px 0;
+  padding: 0;
+  width: 400px;
+}
+.user_main_info table td {
+  padding: 10px 0;
+  text-align: center;
+  height: 50px;
+  border-bottom: 1px solid grey;
+}/*# sourceMappingURL=users.css.map */

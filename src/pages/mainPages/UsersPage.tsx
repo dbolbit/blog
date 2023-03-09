@@ -16,7 +16,6 @@ export enum PROJECT_URL {
   getUsers = 'https://dummyjson.com/users?limit=10&select=company,age,firstName,lastName,image&skip=',
   searchUsers = 'https://dummyjson.com/users/search?select=age,firstName,lastName,image,company&q='
 
-
 }
 
 const {Search} = Input
@@ -29,9 +28,10 @@ const UsersPage: FC = (props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [inputValue, setInputValue] = useState<string>('')
   const [listVariables, setListVariables] = useState<UsersListVariables>('cards')
-  const placementChange = (e: RadioChangeEvent) => {
-    setListVariables(e.target.value)
-  }
+
+
+  const placementChange = (e: RadioChangeEvent) => setListVariables(e.target.value)
+
   const handlerClick = async (e: React.MouseEvent) => {
     setIsLoading(true)
     const newUsers = await getUsers(PROJECT_URL.getUsers, countOfUsers) as UsersListType
@@ -42,67 +42,27 @@ const UsersPage: FC = (props) => {
   const handlerInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value)
   }
-  // const testFocus = (e: FocusEvent) => {
-  //   if (inputValue) {
-  //     setTimeout(async () => {
-  //       const result = await getUsers(PROJECT_URL.searchUsers, inputValue) as UsersListType
-  //       setUsersState(result.users)
-  //     }, 1000)
-  //     // } else if (inputValue === '') {
-  //     //   (async function () {
-  //     //     const data = await getUsers(PROJECT_URL.getUsers, 0) as UsersListType
-  //     //     setUsersState(data.users)
-  //     //   })()
-  //
-  //   }
-  // }
+
 
   useEffect(() => {
-    const testFocus = (e: FocusEvent) => {
-      // if (inputValue) {
-      //   setTimeout(async () => {
-      //     const result = await getUsers(PROJECT_URL.searchUsers, inputValue) as UsersListType
-      //     setUsersState(result.users)
-      //   }, 1000)
-      //   // } else if (inputValue === '') {
-      //   //   (async function () {
-      //   //     const data = await getUsers(PROJECT_URL.getUsers, 0) as UsersListType
-      //   //     setUsersState(data.users)
-      //   //   })()
-      //
-      // }
-    }
     let tId: any
-    // const evMap = new Map()
-    // evMap.set('focus', testFocus)
-    // evMap.set('blur', testBlur)
-    // searchRef?.current?.input?.addEventListener('focus', testFocus)
-    // searchRef?.current?.input?.addEventListener('blur', testBlur)
-
-
     if (inputValue) {
-
       tId = setTimeout(async () => {
         const result = await getUsers(PROJECT_URL.searchUsers, inputValue) as UsersListType
         setUsersState(result.users)
       }, 1000)
-      // } else {
-      //   (async function () {
-      //     const data = await getUsers(PROJECT_URL.getUsers, 0) as UsersListType
-      //     setUsersState(data.users)
-      //   })()
-      //
+    } else {
+      (async function () {
+        const data = await getUsers(PROJECT_URL.getUsers, 0) as UsersListType
+        setUsersState(data.users)
+      })()
+
     }
-    // return () => evMap.forEach((value, key) => searchRef?.current?.input?.removeEventListener(key, value))
-    // return searchRef?.current?.input?.removeEventListener('focus', testFocus)
-
-
     return () => clearTimeout(tId)
   }, [inputValue])
 
   useEffect(() => {
     setCountOfUsers(usersState.length)
-    console.log(usersState)
   }, [usersState])
   return (
     <motion.div
@@ -119,14 +79,12 @@ const UsersPage: FC = (props) => {
             <Radio.Button value="cards" defaultChecked><AppstoreOutlined/></Radio.Button>
             <Radio.Button value="table"><BarsOutlined/></Radio.Button>
           </Radio.Group>
-          <Search style={{width: 300, float: 'right'}}
-                  placeholder="Введите имя пользователя"
+          <Search placeholder="Введите имя пользователя"
                   enterButton
                   value={inputValue}
                   onChange={handlerInput}
                   ref={searchRef}
-
-
+                  className='search_user'
           />
         </div>
       </Layout>

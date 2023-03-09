@@ -63,8 +63,10 @@ const UsersTable: FC<UsersTableProps> = ({users, setUsersState}) => {
     dataSource={usersTableData}
     pagination={{
       total: 100,
-      onChange: handlerChangePagination
+      onChange: handlerChangePagination,
+      showSizeChanger: false
     }}
+
   />
 }
 

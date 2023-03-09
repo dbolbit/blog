@@ -12,7 +12,7 @@ const TodoList: FC = () => {
   const dispatch = useAppDispatch()
   const keys: string[] = todos.map(el => String(el.id))
 
-  const handlerReorder = (value: any[]) => dispatch(updateTodos(sortList(value, todos)))
+  const handlerReorder = (value: any[]) => dispatch(updateTodos(value))
 
 
   return (
@@ -48,8 +48,3 @@ const TodoList: FC = () => {
 }
 
 export default TodoList
-
-
-function sortList(arr: string[], list: Todo[]) {
-  return list.map((el, i, array) => (arr[i] === String(el.id)) ? el : array.find(elem => String(elem.id) === arr[i])) as Todo[]
-}
